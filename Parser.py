@@ -4,79 +4,92 @@
 		I figure we can build an Action and apply these functions
 """
 
-def parseInput(input):
-	#make all characters lower case
-	input = input.lower()
+import Action
 
-	#Look for commas (",") in the string
-	commands = input.split(", ")
+class Parser(object):
+	def __init__(self, commands):
+		self.commandList = commands.split(", ")
+		self.ActionList = []
 
-	#Iterate through the commands
-	for command in commands:
-		pass
+		for command in self.commandList:
+			if not self.validate(command):
+				continue
 
-#Parse the spell from a string
-#	Input --> The message being sent in
-#	returns 'spell' from the input.  This should be the text between 'cast' and 'on'
-def parseSpell(input):
-	if not validate(input):
-		return "NOT VALID"
+			spell = self.parseSpell(command)
+			command = command.replace(spell, "SPELL")
+			target = self.parseTarget(command)
 
-	#Split the string into a list for easier analyzing
-	parts = input.split(" ")
+			#Add it on
+			self.ActionList.append(Action.Action(spell, target))
 
-	i = 1
-	spell = ""
+	"""Returns the spell from a command"""
+	def parseSpell(self, input):
+		parts = input.split(" ")
 
-	#Get the name of the spell from the parts
-	while parts[i] != "on":
-		if parts[i + 1] == "on":
-			spell += parts[i]
+		i = 1
+		spell = ""
+
+		while parts[i] != "on" or i >= parts.__len__:
+			if parts[i + 1] == "on":
+				spell += parts[i]
+			else:
+				spell += parts[i] + " "
+			i += 1
+
+		if self.isValidSpell(spell):
+			return spell
 		else:
-			spell += parts[i] + " "
-		i += 1
+			return "INVALID"
 
-	#TODO: Validate the spell when we have a list of spells
-	return spell 
+	"""Returns the target from a command"""
+	#This function retrieves the target from a command
+	#Input is modified such that it is more easily parsed
+	#The spell (in event of multiple words) must be replaced to "SPELL"
+	#if not previously done.
+	def parseTarget(self, input):
+		parts = input.split(" ")	
 
-def parseTarget(input):
-	if not validate(input):
-		return "NOT VALID"
+		while True:
+			word = parts[0]
+			parts.remove(word)
 
-	parts = input.split(" ")
+			num = parts.__len__()
 
-	#The target will always be the last section of the string
-	action = parts[0] + " " + parts[1] + " " + parts[2] + " "
-	return input.replace(action, "") #TODO: Validate the target when we have a list of targets
+			if (word == "on"):
+				break
+			if num == 0:
+				break
+		
+		target = " ".join(parts)
 
-#Validates a string for proper syntax, does no checking for valid target or spell
-#	Input --> The message being sent in
-#	Returns true 
-def validate(input):
-	input = input.lower()
-	#Break apart the input based on spaces to inspect each part
-	parts = input.split(" ")
+		if self.isValidTarget(target):
+			return target
+		else:
+			return "INVALID"
 
-	if parts[0] != "cast":
-		print "No cast keyword found"
+
+	"""Return whether a command is valid"""
+	def validate(self, input):	
+		parts = input.split(" ")
+
+		if parts[0] != "Cast":
+			#print "No \"cast\" keyword found"
+			return False
+
+		i = 1
+
+		while i < (parts.__len__() - 1):
+			if parts[i] == "on":
+				return True
+			i += 1
+
+		#print ("No \"on\" keyword found")
 		return False
 
-	i = 1
+	#This will search a list/dictionary for the target
+	def isValidTarget(self, target):
+		return True
 
-	#Search until the second to last element.
-	#If nothing is found at the second to last element, we can assume that no "on" word
-	#was found, OR the input is just bad.
-	while i < (parts.__len__() - 1):
-		if parts[i] == "on":
-			return True #When we find it, go ahead and return true on valid syntax
-		i += 1
-
-	return False
-
-#This will search a list/dictionary for the target
-def isValidTarget(target):
-	return True
-
-#This will search a list/dictionary for the spell
-def isValidSpell(spell):
-	return True
+	#This will search a list/dictionary for the spell
+	def isValidSpell(self, spell):
+		return True
