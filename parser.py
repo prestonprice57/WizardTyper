@@ -1,3 +1,9 @@
+"""
+	Dev notes:
+		I wasn't really sure if this should be applied into a class or not.
+		I figure we can build an Action and apply these functions
+"""
+
 def parseInput(input):
 	#make all characters lower case
 	input = input.lower()
@@ -16,6 +22,7 @@ def parseSpell(input):
 	if not validate(input):
 		return "NOT VALID"
 
+	#Split the string into a list for easier analyzing
 	parts = input.split(" ")
 
 	i = 1
@@ -39,8 +46,8 @@ def parseTarget(input):
 	parts = input.split(" ")
 
 	#The target will always be the last section of the string
-	predicate = parts[0] + " " + parts[1] + " " + parts[2] + " "
-	return input.replace(predicate, "")	#TODO: Validate the target when we have a list of targets
+	action = parts[0] + " " + parts[1] + " " + parts[2] + " "
+	return input.replace(action, "") #TODO: Validate the target when we have a list of targets
 
 #Validates a string for proper syntax, does no checking for valid target or spell
 #	Input --> The message being sent in
@@ -66,8 +73,10 @@ def validate(input):
 
 	return False
 
+#This will search a list/dictionary for the target
 def isValidTarget(target):
 	return True
 
+#This will search a list/dictionary for the spell
 def isValidSpell(spell):
 	return True

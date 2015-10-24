@@ -1,3 +1,7 @@
+#!/usr/bin/python
+#I don't know if this is bad form or not to do this, but it makes it able to be ran as an
+#executable when chmod'ed.
+
 import EHandler
 import pygame
 import COLOR_CONSTANTS as COLORS
