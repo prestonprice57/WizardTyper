@@ -39,9 +39,6 @@ class Area:
         if self.west != None:
             print "To the west ", self.west.getEntranceDescription()
 
-    def getEntranceDescription(self):
-        return self.entranceDescription
-
     def getArea(self, r):
         if r == 'n':
             return self.north
