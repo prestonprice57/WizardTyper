@@ -1,4 +1,7 @@
-﻿import pygame
+﻿# EHandler.py: This is the event handler
+# Author: Chad Carey, 
+
+import pygame
 
 class EHandler(object):
     

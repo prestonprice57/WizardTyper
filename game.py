@@ -1,3 +1,7 @@
+# Game.py: This is the main game file for the WizardTyper game
+# Author: Chad Carey, 
+
+
 import EHandler
 import pygame
 import COLOR_CONSTANTS as COLORS
@@ -14,19 +18,21 @@ pygame.display.set_caption("Wizard Typer")
 # initialize everything else here
 
 
-# callback methods for the eHandler go here
-# NOTE: all callback methods take an pygame.event a a parameter
+# initializing the eHandler, You must give the eHandler a default keyboard function
 def keyboard(event):
 	key = event.key
 	print key
-
-# initializing the eHandler
 eHandler = EHandler.EHandler(keyboard)
+
+# callback methods for the eHandler go here
+# NOTE: all callback methods take an pygame.event a a parameter
+def quit(event):
+	eHandler.quit = True
 
 # add methods to EHandler here
 # the following is an example
 # eHandler.registerKey(pygame.K_a, exampleCallbackMethod)
-
+eHandler.registerKey(pygame.K_ESCAPE, quit)
 
 # main game loop
 clock = pygame.time.Clock()
