@@ -1,4 +1,7 @@
-import effects
+#!/usr/bin/python
+
+import Effects
+import Entities
 
 def printStatus(status):
 	if status:
@@ -11,11 +14,12 @@ def testCreatures():
 	printStatus(False)
 
 def testEffects():
-	print "testing fireball"
-	fire = effects.Fireball(10,20)
-	tar = effects.Target(100)
-	while fire.effectActive:
-		fire.applyEffect(tar)
+	print "testing effects"
+	print "testing burn"
+	burn = Effects.Burn(10,20)
+	tar = Entities.Entity(100)
+	while burn.effectActive:
+		burn.applyEffect(tar)
 	printStatus(tar.hp == -100 and tar.dead)
 
 def testSpells():

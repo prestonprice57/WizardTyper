@@ -11,6 +11,12 @@ class Area:
         self._west = None
         self._entranceDescription = "you see another room."
 
+    def __init__(self, n, s, e, w):
+        self._north = n
+        self._south = s
+        self._east = e
+        self._west = w
+
     def setAdjacentAreas(self, n, s, e, w):
         self._north = n
         self._south = s

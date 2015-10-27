@@ -13,10 +13,10 @@ class Effect(object):
 			self.effectActive = False
 
 
-class Fireball(Effect):
+class Burn(Effect):
 	def __init__(self, duration, power):
 		# call super constuctor
-		super(Fireball, self).__init__()
+		super(Burn, self).__init__()
 		self.timer = duration
 		self.power = power
 
@@ -25,15 +25,3 @@ class Fireball(Effect):
 		if self.effectActive:
 			target.damage(self.power)
 			
-
-class Target(object):
-
-	def __init__(self, hp):
-		self.hp = hp
-		self.dead = False
-
-	def damage(self, damage):
-		self.hp = self.hp - damage
-		if self.hp < 1:
-			self.dead = True
-
