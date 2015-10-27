@@ -1,3 +1,6 @@
+
+#!/usr/bin/python
+
 # Game.py: This is the main game file for the WizardTyper game
 # Author: Chad Carey, 
 
