@@ -1,5 +1,5 @@
 
-
+# stats class contains entity stats like hp and resistances
 class Stats(object):
 
 	def __init__(self):
@@ -10,6 +10,7 @@ class Stats(object):
 	# add properties for magicPower and fireResistance
 
 
+# Entity is the base class for all game entities. (player, crature...)
 class Entity(object):
 
 	def __init__(self):
@@ -25,4 +26,8 @@ class Entity(object):
 
 	def update(self):
 		for effect in self.effects:
-			effect.applyEffect(self)
+			if effect.active:
+				effect.applyEffect(self)
+			else:
+				print "effect is no longer active. It has been removed"
+				self.effects.remove(effect)

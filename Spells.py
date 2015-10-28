@@ -7,13 +7,13 @@ class Spell(object):
 		self.targets = []
 		self.casterName = "None"
 
-	# this method will pass any effects to the entity if it is one of the specified targets
+	# this method will pass any effects to the entity if it is on the targets list
 	def applyEffectsToEntity(self, entity):
 		if self.isTarget(entity):
 			for effect in self.effects:
 				entity.effects.append(effect)
 
-	# this will check to see if the entity is amount the list of targets
+	# this will check to see if the entity is amoung the list of targets
 	def isTarget(self, entity):
 		for target in self.targets:
 			if target == entity.name:
@@ -24,11 +24,14 @@ class Spell(object):
 class Fireball(Spell):
 	def __init__(self, multiplier):
 		super(Fireball, self).__init__()
+		
 		# add the effects
-		# the first effectis a quick-hard hit
+
+		# the first effect is a quick-hard hit
 		duration = 1
 		power = 3*multiplier
 		self.effects.append(Effects.Burn(duration, power))
+		
 		# the second effect is a slow long lasting burn
 		duration = 3*multiplier
 		power = 1
