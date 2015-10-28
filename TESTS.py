@@ -2,6 +2,7 @@
 
 import Effects
 import Entities
+import Spells
 
 def printStatus(status):
 	if status:
@@ -24,7 +25,23 @@ def testEffects():
 
 def testSpells():
 	print "testingSpells"
-	printStatus(False)
+	# make some targets for the spell
+	tar1 = Entities.Entity()
+	startingHP = tar1.stats.hp
+
+	# create the spell and add the list of target names to the spell, normally this would come from the keyboard
+	fireball = Spells.Fireball(startingHP/5)
+	fireball.targets.append(tar1.name)
+
+	# try to apply the spell to the entities, this should pass on all effects to the listed targets
+	fireball.applyEffectsToEntity(tar1)
+
+	# the first hit should be bigger
+	while not tar1.dead:
+		tar1.update()
+	
+	printStatus(tar1.dead)
+	printStatus(False) # this tests needs to check each effect in the spell, but for now we seem okay.
 
 def testSpellbook():
 	print "testingSpellbook"
