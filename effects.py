@@ -1,3 +1,4 @@
+import Entities
 
 # effect is a base class for all 
 class Effect(object):
@@ -20,8 +21,8 @@ class Burn(Effect):
 		self.timer = duration
 		self.power = power
 
-	def applyEffect(self, target):
+	def applyEffect(self, entity):
 		self.updateSpellProgress()
 		if self.effectActive:
-			target.damage(self.power)
+			entity.damage(self.power)
 			
