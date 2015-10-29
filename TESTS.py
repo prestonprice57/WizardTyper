@@ -6,6 +6,7 @@
 import Effects
 import Entities
 import Spells
+import SpellFactory
 
 def printStatus(status):
 	if status:
@@ -54,10 +55,49 @@ def testArea():
 	print "testintArea"
 	printStatus(False)
 
+def testSpellFactory(msg, str1, str2, str3, expSpellList, expTargetList):
+	print "testingSpellFactory"
+
+	print "TESTING STRING \"" + msg + "\""
+	sf = SpellFactory.SpellFactory(msg)
+
+	if sf.casterString != str1:
+		print "ERROR: Result incorrect.  Expected \"" + str1 + "\" but found: \"" + sf.casterString + "\""
+		return
+	if sf.spellString != str2:
+		print "ERROR: Result incorrect.  Expected \"" + str2 + "\" but found: \"" + sf.spellString + "\""
+		return
+	if sf.targetString != str3:
+		print "ERROR: Result incorrect.  Expected \"" + str3 + "\" but found: \"" + sf.targetString + "\""
+		return
+
+	spellList = sf.spellList
+	targetList = sf.targetList
+
+	if spellList != expSpellList:
+		print "ERROR: Result incorrect.  Expected \"fireball\" but found: \"" + spellList[0] + "\""
+		return
+	if targetList != expTargetList:
+		print "ERROR: Result incorrect.  Expected \"skeleton\" but found: \"" + targetList[0] + "\""
+		return
+
+	print "\tPass"
+
+
 
 # start tests here
 testEffects()
 testCreatures()
-testSpells()
+#testSpells()
 testSpellbook()
 testArea()
+
+msg1 = "Player cast fireball on skeleton"
+msg2 = "Player cast fireball and lightning bolt on skeleton"
+msg3 = "Player cast fireball on skeleton 1 and skeleton 2"
+msg4 = "Player cast fireball and lightning bolt on skeleton 1 and skeleton 2"
+
+testSpellFactory(msg1, "Player", "fireball", "skeleton", ["fireball"], ["skeleton"])
+testSpellFactory(msg2, "Player", "fireball and lightning bolt", "skeleton", ["fireball", "lightning bolt"], ["skeleton"])
+testSpellFactory(msg3, "Player", "fireball", "skeleton 1 and skeleton 2", ["fireball"], ["skeleton 1", "skeleton 2"])
+testSpellFactory(msg4, "Player", "fireball and lightning bolt", "skeleton 1 and skeleton 2", ["fireball", "lightning bolt"], ["skeleton 1", "skeleton 2"])
