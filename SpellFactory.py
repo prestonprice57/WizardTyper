@@ -14,10 +14,6 @@ class SpellFactory(object):
 
 	def __build(self, string):
 		self.PARTS = string.split(" ")
-		print self.PARTS
-		#self.__findCaster()
-		#self.__findSpells()
-		#self.__findTargets()
 		self.__findStrings()
 		self.__buildSpellList()
 		self.__buildTargetList()
@@ -67,67 +63,13 @@ class SpellFactory(object):
 
 		#Adjust the locators
 		start = end + 1
-		print "   " + str(start) + ", " + str(end)
 
 ##########################################################################################
 
 		for i in range(start, self.PARTS.__len__()):
-			self.targetString += self.PARTS[i] + " "
-			#print i
+			self.targetString += self.PARTS[i] + " "			
 
 		self.targetString[:-1]
-		print "CASTER: " + self.casterString
-		print "SPELLS: " + self.spellString
-		print "TARGETS: " + self.targetString
-
-
-	def __findCaster(self):
-		"""While 'cast'/'block' is not found"""
-		part = self.PARTS[0]
-
-		while part != "cast" or part != "block":
-			if part == "cast" or part == "block":
-				self.TYPEKEYWORD = True
-
-			self.PARTS.remove(part)
-			self.casterString += part + " "
-			part = self.PARTS[0]
-
-
-		self.casterString[:-1]
-		print self.casterString
-
-
-
-	def __findSpells(self):
-		if not self.TYPEKEYWORD:
-			return
-
-		""""While 'on' is not found"""
-		for part in self.PARTS:
-			tPart = part.lower()
-			self.PARTS.remove(part)
-
-			if tPart == "on":
-				self.ONKEYWORD = True
-				break
-
-			self.spellString += part + " "
-
-		self.spellString[:-1]
-
-
-	def __findTargets(self):
-		if not self.TYPEKEYWORD and not self.ONKEYWORD:
-			print "ERROR"
-			return
-
-		for part in self.PARTS:
-			print part
-			self.targetString += part + " "
-
-		self.targetString[:-1]
-
 
 	def __buildSpellList(self):
 		parts = self.spellString.split(" and ")
@@ -143,21 +85,3 @@ class SpellFactory(object):
 		for part in parts:
 			#eventually need to add logic to search for the target and verify that it's a valid target
 			self.targetList.append(part)
-
-
-
-
-"""		
-for part in self.PARTS:
-			print part
-			tPart = part.lower() #format for easier syntax checking
-			self.PARTS.remove(part) #Kick it off the list
-
-			if tPart == "cast" or tPart == "block":				
-				self.TYPEKEYWORD = True
-				break
-
-			self.casterString += part + " "
-
-		self.casterString[:-1] #Remove the final space
-"""
