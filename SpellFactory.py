@@ -43,13 +43,9 @@ class SpellFactory(object):
 		for i in range(start, end):
 			self.casterString += self.PARTS[i] + " "
 
-		self.casterString[:-1]
-
 		#Adjust the locators
 		start = end + 1
 		end = start + 1
-
-#########################################################################################
 
 		#Find the keyword "on"
 		while self.PARTS[end] != "on":
@@ -59,17 +55,16 @@ class SpellFactory(object):
 		for i in range(start, end):
 			self.spellString += self.PARTS[i] + " "
 
-		self.casterString[:-1]
+		self.casterString = self.casterString[:-1]
+		self.spellString = self.spellString[:-1]
 
 		#Adjust the locators
 		start = end + 1
 
-##########################################################################################
-
 		for i in range(start, self.PARTS.__len__()):
 			self.targetString += self.PARTS[i] + " "			
 
-		self.targetString[:-1]
+		self.targetString = self.targetString[:-1]
 
 	def __buildSpellList(self):
 		parts = self.spellString.split(" and ")
