@@ -4,6 +4,12 @@ import Spells
 class SpellFactory(object):
 	"""Builds a spell and returns it"""
 	def __init__(self):
+		self._spellBook = {
+			"fireball":Spells.Fireball,
+			"Fireball":Spells.Fireball,
+			"lightning bolt":Spells.LightningBolt,
+			"LightningBolt":Spells.LightningBolt
+		}
 		self.casterString = ""
 		self.targetString = ""
 		self.spellString  = ""
@@ -12,10 +18,6 @@ class SpellFactory(object):
 		self.TYPEKEYWORD = False
 		self.ONKEYWORD = False
 		self.PARTS = []
-		self._spellBook = {
-			"fireball":Spells.Fireball,
-			"lightning bolt":Spells.LightningBolt
-			}
 
 	def getSpell(self, spellString, typeSpeed):
 		self.__build(spellString)
@@ -24,7 +26,7 @@ class SpellFactory(object):
 			if spellText in self._spellBook:
 				spell = self._spellBook[spellText]
 				spell = spell(typeSpeed)
-				spell.targets = list(self.targetList)
+				spell.targets = self.targetList
 				spells.append(spell)
 		return spells
 

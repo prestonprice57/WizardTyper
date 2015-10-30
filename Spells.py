@@ -42,7 +42,6 @@ class Fireball(Spell):
 class LightningBolt(Spell):
 	def __init__(self, multiplier):
 		super(LightningBolt, self).__init__()
-		print "\n\tLightning bolt is currently a copy of Fireball. Please add effects for shock.\n"
 		
 		# add the effects
 
