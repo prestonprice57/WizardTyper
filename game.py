@@ -21,8 +21,18 @@ pygame.display.set_caption("Wizard Typer")
 
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
+isTyping = False
 def keyboard(event):
 	key = event.key
+	#if isTyping:
+	#	if key == pygame.K_ENTER:
+	#		isTyping = False
+	#		text = textBox.clear()
+	#		spell = spellBook.getSpell(text)
+	#		area.castSpell(spell)
+	#	textBox.enterText(key)
+	#elif key == pygame.K_ENTER:
+	#	isTyping = True
 	print key
 eHandler = EHandler.EHandler(keyboard)
 

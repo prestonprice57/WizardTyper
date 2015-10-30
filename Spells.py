@@ -36,3 +36,17 @@ class Fireball(Spell):
 		duration = 3*multiplier
 		power = 1
 		self.effects.append(Effects.Burn(duration,power))
+
+
+# fireball spell class
+class LightningBolt(Spell):
+	def __init__(self, multiplier):
+		super(LightningBolt, self).__init__()
+		print "\n\tLightning bolt is currently a copy of Fireball. Please add effects for shock.\n"
+		
+		# add the effects
+
+		# the first effect is a quick-hard hit
+		duration = 1
+		power = 5*multiplier
+		self.effects.append(Effects.Burn(duration, power))

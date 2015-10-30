@@ -1,6 +1,9 @@
+import Spells
+
+
 class SpellFactory(object):
 	"""Builds a spell and returns it"""
-	def __init__(self, string):
+	def __init__(self):
 		self.casterString = ""
 		self.targetString = ""
 		self.spellString  = ""
@@ -9,9 +12,23 @@ class SpellFactory(object):
 		self.TYPEKEYWORD = False
 		self.ONKEYWORD = False
 		self.PARTS = []
+		self._spellBook = {
+			"fireball":Spells.Fireball,
+			"lightning bolt":Spells.LightningBolt
+			}
 
-		self.__build(string)
+	def getSpell(self, spellString, typeSpeed):
+		self.__build(spellString)
+		spells = []
+		for spellText in self.spellList:
+			if spellText in self._spellBook:
+				spell = self._spellBook[spellText]
+				spell = spell(typeSpeed)
+				spell.targets = list(self.targetList)
+				spells.append(spell)
+		return spells
 
+	
 	def __build(self, string):
 		self.PARTS = string.split(" ")
 		self.__findStrings()

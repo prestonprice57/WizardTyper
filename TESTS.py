@@ -13,6 +13,7 @@ def printStatus(status):
 		print "\tPass\n"
 	else:
 		print "\tFail\n"
+	return status
 
 def testCreatures():
 	print "testing creatures"
@@ -59,7 +60,8 @@ def testSpellFactory(msg, str1, str2, str3, expSpellList, expTargetList):
 	print "testingSpellFactory"
 
 	print "TESTING STRING \"" + msg + "\""
-	sf = SpellFactory.SpellFactory(msg)
+	sf = SpellFactory.SpellFactory()
+	spells = sf.getSpell(msg, 1)
 
 	if sf.casterString != str1:
 		print "ERROR: Result incorrect.  Expected \"" + str1 + "\" but found: \"" + sf.casterString + "\""
@@ -81,7 +83,17 @@ def testSpellFactory(msg, str1, str2, str3, expSpellList, expTargetList):
 		print "ERROR: Result incorrect.  Expected \"skeleton\" but found: \"" + targetList[0] + "\""
 		return
 
-	print "\tPass"
+	print "testing the returned spell array"
+	print "\tarray length == ", len(spells)
+	print "\texpected length == ", len(expSpellList)
+	printStatus(len(spells) == len(expSpellList))
+
+	print "testing the returned spell array's targets"
+	for spell in spells:
+		print "\ttesting a spell"
+		spellTargets = spell.targets
+		printStatus(len(spellTargets) == len(expTargetList))
+
 
 
 
