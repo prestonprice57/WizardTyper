@@ -13,11 +13,28 @@ class Effect(object):
 		else:
 			self.active = False
 
+	def applyEffect(self, entity):
+		pass
+
 # burn is a damage effect
 class Burn(Effect):
 	def __init__(self, duration, power):
 		# call super constuctor
 		super(Burn, self).__init__()
+		self.timer = duration
+		self.power = power
+
+	def applyEffect(self, entity):
+		self.updateSpellProgress()
+		if self.active:
+			entity.damage(self.power)
+			
+
+# burn is a damage effect
+class Shock(Effect):
+	def __init__(self, duration, power):
+		# call super constuctor
+		super(Shock, self).__init__()
 		self.timer = duration
 		self.power = power
 

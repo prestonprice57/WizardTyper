@@ -49,4 +49,4 @@ class LightningBolt(Spell):
 		# the first effect is a quick-hard hit
 		duration = 1
 		power = 5*multiplier
-		self.effects.append(Effects.Burn(duration, power))
+		self.effects.append(Effects.Shock(duration, power))
