@@ -1,18 +1,23 @@
 #!/usr/bin/python
-
 # This file contains test cases for all of the python classes
-# TODO: make the pass and fail messaes green and red
+
+# the following changes the colors of the terminal to make fails easier to see
+from colorama import init
+init(autoreset=True)
+from colorama import Fore, Back, Style
 
 import Effects
 import Entities
 import Spells
 import SpellFactory
 
+# this will print colored pass / fails
 def printStatus(status):
 	if status:
-		print "\tPass\n"
+		print Back.GREEN + Fore.BLACK + "\tPass"
 	else:
-		print "\tFail\n"
+		print Back.RED + Fore.WHITE + "\tFail"
+	print "\n"
 	return status
 
 def testCreatures():
@@ -24,7 +29,7 @@ def testEffects():
 	print "testing burn"
 	burn = Effects.Burn(10,20)
 	tar = Entities.Entity()
-	while burn.active:
+	while burn.active:c
 		burn.applyEffect(tar)
 	printStatus(tar.stats.hp == -100 and tar.dead)
 

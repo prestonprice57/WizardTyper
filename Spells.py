@@ -38,7 +38,7 @@ class Fireball(Spell):
 		self.effects.append(Effects.Burn(duration,power))
 
 
-# fireball spell class
+# lightning spell class
 class LightningBolt(Spell):
 	def __init__(self, multiplier):
 		super(LightningBolt, self).__init__()
