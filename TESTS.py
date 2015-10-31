@@ -39,10 +39,10 @@ def testCreatures():
 
 def testPokemon():
 	printBlue("Testing pokemon instantiation")
-	charmander = Pokemon.Pokemon(4)
-	printStatus(charmander)
+	poke = Pokemon.Pokemon(25)
+	printStatus(poke)
 	printBlue("Testing pokemon download status")
-	printStatus(charmander.buildStatus)
+	printStatus(poke.buildStatus)
 
 
 def testEffects():
