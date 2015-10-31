@@ -10,26 +10,47 @@ import Effects
 import Entities
 import Spells
 import SpellFactory
+import Pokemon
+
+def printBlue(string):
+	print Back.CYAN + Fore.BLACK + string
+
+def printGreen(string):
+	print Back.GREEN + Fore.BLACK + string
+
+def printRed(string):
+	print Back.RED + Fore.WHITE + string
 
 # this will print colored pass / fails
 def printStatus(status):
 	if status:
-		print Back.GREEN + Fore.BLACK + "\tPass"
+		printGreen("\tPass")
 	else:
-		print Back.RED + Fore.WHITE + "\tFail"
+		printRed("\tFail")
 	print "\n"
 	return status
+
+
+# TESTS
 
 def testCreatures():
 	print "testing creatures"
 	printStatus(False)
+
+def testPokemon():
+	printBlue("Testing pokemon instantiation")
+	charmander = Pokemon.Pokemon(4)
+	printStatus(charmander)
+	printBlue("Testing pokemon download status")
+	printStatus(charmander.buildStatus)
+
 
 def testEffects():
 	print "testing effects"
 	print "testing burn"
 	burn = Effects.Burn(10,20)
 	tar = Entities.Entity()
-	while burn.active:c
+	while burn.active:
 		burn.applyEffect(tar)
 	printStatus(tar.stats.hp == -100 and tar.dead)
 
@@ -118,3 +139,9 @@ testSpellFactory(msg1, "Player", "fireball", "skeleton", ["fireball"], ["skeleto
 testSpellFactory(msg2, "Player", "fireball and lightning bolt", "skeleton", ["fireball", "lightning bolt"], ["skeleton"])
 testSpellFactory(msg3, "Player", "fireball", "skeleton 1 and skeleton 2", ["fireball"], ["skeleton 1", "skeleton 2"])
 testSpellFactory(msg4, "Player", "fireball and lightning bolt", "skeleton 1 and skeleton 2", ["fireball", "lightning bolt"], ["skeleton 1", "skeleton 2"])
+
+
+
+
+
+testPokemon()

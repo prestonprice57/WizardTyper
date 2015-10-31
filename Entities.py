@@ -5,7 +5,7 @@ class Stats(object):
 	def __init__(self):
 		self.hp = 100
 		self._magicPower = 1.0 # percentage
-		self._fireResistance = 1.0 # percentage
+		self._magicResistance = 1.0 # percentage
 
 	# add properties for magicPower and fireResistance
 
@@ -31,3 +31,6 @@ class Entity(object):
 			else:
 				print "effect is no longer active. It has been removed"
 				self.effects.remove(effect)
+	
+	def draw(self):
+		pass
