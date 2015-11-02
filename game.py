@@ -7,6 +7,9 @@
 import EHandler
 import pygame
 import COLOR_CONSTANTS as COLORS
+import inputbox
+import pygame.font, pygame.event, pygame.draw, string
+from pygame.locals import *
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -18,12 +21,20 @@ screen = pygame.display.set_mode(SCREEN_SIZE)
 pygame.display.set_caption("Wizard Typer")
 
 # initialize everything else here
-
+#def inputBox(screen):
+#	pygame.draw_rect(screen, (0,0,0), ((screen.get_width() / 2) - 100, )
+#		)
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
 isTyping = False
 def keyboard(event):
 	key = event.key
+
+	if key == 13:
+		print "ENTER WAS PRESSED"
+		msg = inputbox.ask(screen, "")     #This here works, but we could probably make it work better for us...
+		print msg
+
 	#if isTyping:
 	#	if key == pygame.K_ENTER:
 	#		isTyping = False
