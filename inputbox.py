@@ -14,51 +14,35 @@
 
 import pygame, pygame.font, pygame.event, pygame.draw, string
 from pygame.locals import *
+import display
+import COLOR_CONSTANTS as COLORS
 
-def get_key():
-  while 1:
-    event = pygame.event.poll()
-    if event.type == KEYDOWN:
-      return event.key
-    else:
-      pass
 
-def display_box(screen, message):
-  "Print a message in a box in the middle of the screen"
-  fontobject = pygame.font.Font(None,18)
-  pygame.draw.rect(screen, (0,0,0),
-                   ((screen.get_width() / 2) - 100,
-                    (screen.get_height() / 2) - 10,
-                    200,20), 0)
-  pygame.draw.rect(screen, (255,255,255),
-                   ((screen.get_width() / 2) - 102,
-                    (screen.get_height() / 2) - 12,
-                    204,24), 1)
-  if len(message) != 0:
-    screen.blit(fontobject.render(message, 1, (255,255,255)),
-                ((screen.get_width() / 2) - 100, (screen.get_height() / 2) - 10))
-  pygame.display.flip()
+class InputBox(display.Renderable):
 
-def ask(screen, question):
-  "ask(screen, question) -> answer"
-  pygame.font.init()
-  current_string = []
-  display_box(screen, question + "Player: " + string.join(current_string,""))
-  while 1:
-    inkey = get_key()
-    if inkey == K_BACKSPACE:
-      current_string = current_string[0:-1]
-    elif inkey == K_RETURN:
-      break
-    elif inkey == K_MINUS:
-      current_string.append("_")
-    elif inkey <= 127:
-      current_string.append(chr(inkey))
-    display_box(screen, question + "Player: " + string.join(current_string,""))
-  return string.join(current_string,"")
+    def __init__(self):
+        pygame.font.init()
+        self.currentText = ""
+        self.z_index = 10
+        self.isTyping = False
 
-def main():
-  screen = pygame.display.set_mode((320,240))
-  print ask(screen, "Name") + " was entered"
+  # render the display box with text here
+    def render(self, screen):
+        "Print a message in a box in the middle of the screen"
+        if self.isTyping:
+            box1 = (0, screen.get_height() - 31, screen.get_width(), 30)
+            textLocation = (box1[0], box1[1] + (box1[3]/3))
+            fontobject = pygame.font.Font(None,18)
+            pygame.draw.rect(screen, COLORS.BLACK, box1 , 0)
+            if len(self.currentText) > 0:
+                screen.blit(fontobject.render(self.currentText, 1, COLORS.WHITE), textLocation)
 
-if __name__ == '__main__': main()
+    def toggle(self):
+        self.isTyping = not self.isTyping
+
+    def clear(self):
+        self.currentText = ""
+
+    def undo(self, event = None, isKeydown = True):
+        if isKeydown:
+            self.currentText = self.currentText[:-1]

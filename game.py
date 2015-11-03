@@ -3,15 +3,12 @@
 # Game.py: This is the main game file for the WizardTyper game
 # Author: Chad Carey, 
 
-
 import EHandler
 import pygame
 import COLOR_CONSTANTS as COLORS
 import display
 import Entities
-import inputbox
-import pygame.font, pygame.event, pygame.draw, string
-from pygame.locals import *
+import Inputbox
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -24,59 +21,56 @@ display.register(Entities.main_map())
 
 # initialize everything else here
 cleric = Entities.Cleric()
-cleric.set_location(cleric.x,cleric.y)
 display.register(cleric)
-#def inputBox(screen):
-#	pygame.draw_rect(screen, (0,0,0), ((screen.get_width() / 2) - 100, )
-#		)
+textBox = Inputbox.InputBox()
+display.register(textBox)
+
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
-isTyping = False
-def keyboard(event):
+def keyboard(event, isKeydown):
 	key = event.key
-
-	if key == 13:
-		print "ENTER WAS PRESSED"
-		msg = inputbox.ask(screen, "")     #This here works, but we could probably make it work better for us...
-		print msg
-
-	#if isTyping:
-	#	if key == pygame.K_ENTER:
-	#		isTyping = False
-	#		text = textBox.clear()
-	#		spell = spellBook.getSpell(text)
-	#		area.castSpell(spell)
-	#	textBox.enterText(key)
-	#elif key == pygame.K_ENTER:
-	#	isTyping = True
-	print key
+	if textBox.isTyping and isKeydown:
+		try:
+			textBox.currentText += chr(key)
+		except:
+			pass
 eHandler = EHandler.EHandler(keyboard)
 
 # callback methods for the eHandler go here
 # NOTE: all callback methods take an pygame.event a a parameter
-def quit(event):
+def quit(event, isKeydown):
 	eHandler.quit = True
 
+def enterKey(event, isKeydown):
+	if isKeydown:
+		textBox.toggle()
+		spellText = textBox.currentText
+		textBox.clear()
+		if len(spellText) > 0: print spellText
 
-def moveLeft(event):
-	cleric.x-=.2
-	cleric.set_location(cleric.x,cleric.y)
-	display.register(cleric)
+def moveLeft(event, isKeydown):
+	if isKeydown:
+		cleric.dx = -cleric.speed
+	else:
+		cleric.dx = 0.0
 
-def moveRight(event):
-	cleric.x+=.2
-	cleric.set_location(cleric.x,cleric.y)
-	display.register(cleric)
+def moveRight(event, isKeydown):
+	if isKeydown:
+		cleric.dx = cleric.speed
+	else:
+		cleric.dx = 0.0
 
-def moveUp(event):
-	cleric.y-=.2
-	cleric.set_location(cleric.x,cleric.y)
-	display.register(cleric)
+def moveUp(event, isKeydown):
+	if isKeydown:
+		cleric.dy = -cleric.speed
+	else:
+		cleric.dy = 0.0
 
-def moveDown(event):
-	cleric.y+=.2
-	cleric.set_location(cleric.x,cleric.y)
-	display.register(cleric)
+def moveDown(event, isKeydown):
+	if isKeydown:
+		cleric.dy = cleric.speed
+	else:
+		cleric.dy = 0.0
 
 # add methods to EHandler here
 # the following is an example
@@ -86,20 +80,22 @@ eHandler.registerKey(pygame.K_LEFT, moveLeft)
 eHandler.registerKey(pygame.K_RIGHT, moveRight)
 eHandler.registerKey(pygame.K_UP, moveUp)
 eHandler.registerKey(pygame.K_DOWN, moveDown)
+eHandler.registerKey(pygame.K_RETURN, enterKey)
+eHandler.registerKey(pygame.K_BACKSPACE, textBox.undo)
+
 # main game loop
 clock = pygame.time.Clock()
 while not eHandler.quit:
+
+	# run events
 	eHandler.runEvents()
 
-	# clear and draw again
-	#screen.fill(COLORS.BACKGROUND)
+	# update objects
+	cleric.update()
+
+    # draw
 	display.render()
-    # all drawing happens here
 
-
-
-	# flip the back buffer
-	pygame.display.flip()
 	# this limits the game to 60 fps
 	clock.tick(FRAMES_PER_SECOND)
 

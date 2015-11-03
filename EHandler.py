@@ -27,8 +27,9 @@ class EHandler(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit = True
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                isKeyDown = event.type == pygame.KEYDOWN
                 if self._keyMap.has_key(event.key):
-                    self._keyMap[event.key](event)
+                    self._keyMap[event.key](event, isKeyDown)
                 else:
-                    self._keyboard(event)
+                    self._keyboard(event, isKeyDown)

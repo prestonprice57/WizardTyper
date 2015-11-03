@@ -19,40 +19,41 @@ class Entity(display.Renderable):
 	def __init__(self, sprite_map):
 		# Call the parent constructor
 		super(Entity, self).__init__(sprite_map, 0)
-
 		self.tile = (0, 0)	# Location in tile units as float
 		self.stats = Stats()
 		self.dead = False
 		self.effects = []
 		self.name = None
+		self.x = 4
+		self.y = 4
+		self.dx = 0
+		self.dy = 0
+		self.speed = 1
 
 	def render(self, screen):
 		''' Override in children'''
 		pass
-
-	def set_location(self, x, y):
-		''' Set the location of the object
-
-		x, y -- location in floating point tile units
-		'''
-
-		self.tile = (x, y)
-
-		# Update the z-index
-		self.z_index = self.tile[1] * 100
 
 	def damage(self, damage):
 		self.stats.hp = self.stats.hp - damage
 		if self.stats.hp < 1:
 			self.dead = True
 
-	def update(self):
+	def move(self):
+		self.x += self.dx
+		self.y += self.dy
+
+	def runEffects(self):
 		for effect in self.effects:
 			if effect.active:
 				effect.applyEffect(self)
 			else:
 				print "effect is no longer active. It has been removed"
 				self.effects.remove(effect)
+
+	def update(self):
+		self.move()
+		self.runEffects()
 
 class Actions(object):
 	''' Action state enum'''
@@ -70,8 +71,6 @@ class Cleric(Entity):
 #!!! handle movement.  This would set the movement
 #!!! speed and deal with the rendering details.
 
-	x = 4
-	y = 4
 	# This is essentially a static class variable
 	# It contains the mapping of frames in the
 	# minotaur sprite map.
@@ -97,11 +96,10 @@ class Cleric(Entity):
 		self.frame = 0.0
 
 	def render(self, screen):
-		''' Renders the minotaur'''
 
 		# Convert tile/subtile to screen coordinates
-		x = int(self.tile[0] * 32)
-		y = int(self.tile[1] * 32)
+		#x = int(self.tile[0] * 32)
+		#y = int(self.tile[1] * 32)
 
 		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 10
 
@@ -115,7 +113,7 @@ class Cleric(Entity):
 		        ),
 		        (64, 64)
 		    ),
-		    (x, y)
+		    (self.x, self.y)
 		)
 
 class Map(display.Renderable):
@@ -223,9 +221,4 @@ def main_map():
 		test_tiles.append(i)
 
 	m.set_map(tiles)
-	return m
-
-def sample_cleric():
-	m = Cleric()
-	m.set_location(8, 5)
 	return m
