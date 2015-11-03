@@ -28,8 +28,8 @@ def testEffects():
 	print "testing effects"
 	print "testing burn"
 	burn = Effects.Burn(10,20)
-	tar = Entities.Entity()
-	while burn.active:c
+	tar = Entities.Entity(None)
+	while burn.active:
 		burn.applyEffect(tar)
 	printStatus(tar.stats.hp == -100 and tar.dead)
 
