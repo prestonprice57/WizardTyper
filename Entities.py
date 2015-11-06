@@ -103,6 +103,22 @@ class Cleric(Entity):
 		)
 		self.clock = pygame.time.Clock()
 		self.frame = 0.0
+		self.currentAction = Actions.IDLE
+
+
+	def setCurrentAction(self, actionNum):
+		if actionNum == 0:
+			self.currentAction = Actions.IDLE
+		elif actionNum == 1:
+			self.currentAction = Actions.TAUNT
+		elif actionNum == 2:
+			self.currentAction = Actions.WALK
+		elif actionNum == 3:
+			self.currentAction = Actions.ATTACK
+		elif actionNum == 4:
+			self.currentAction = Actions.DIE
+		else:
+			print "Invalid input. Current action not changed."
 
 	def render(self, screen):
 
@@ -116,7 +132,7 @@ class Cleric(Entity):
 		    pygame.transform.scale(
 		        self.sprite_map.subsurface(
 		            pygame.Rect(
-		                self.frames[Actions.WALK][int(self.frame)],
+		                self.frames[self.currentAction][int(self.frame)],
 		                (32, 32)
 		            ),
 		        ),
