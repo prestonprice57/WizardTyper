@@ -61,26 +61,34 @@ def enterKey(event, isKeydown):
 def moveLeft(event, isKeydown):
 	if isKeydown:
 		cleric.dx = -cleric.speed
+		cleric.setCurrentAction(2)
 	else:
 		cleric.dx = 0.0
+		cleric.setCurrentAction(0)
 
 def moveRight(event, isKeydown):
 	if isKeydown:
 		cleric.dx = cleric.speed
+		cleric.setCurrentAction(2)
 	else:
 		cleric.dx = 0.0
+		cleric.setCurrentAction(0)
 
 def moveUp(event, isKeydown):
 	if isKeydown:
 		cleric.dy = -cleric.speed
+		cleric.setCurrentAction(2)
 	else:
 		cleric.dy = 0.0
+		cleric.setCurrentAction(0)
 
 def moveDown(event, isKeydown):
 	if isKeydown:
 		cleric.dy = cleric.speed
+		cleric.setCurrentAction(2)
 	else:
 		cleric.dy = 0.0
+		cleric.setCurrentAction(0)
 
 def printHP(event, isKeydown):
 	if isKeydown: print cleric.stats.hp
