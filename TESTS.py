@@ -10,6 +10,7 @@ import Effects
 import Entities
 import Spells
 import SpellFactory
+import Tags
 
 # this will print colored pass / fails
 def printStatus(status):
