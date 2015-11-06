@@ -2,6 +2,7 @@ import display
 import os
 import pygame
 import Colliders
+import Tags
 
 
 # stats class contains entity stats like hp and resistances
@@ -103,6 +104,7 @@ class Cleric(Entity):
 		)
 		self.clock = pygame.time.Clock()
 		self.frame = 0.0
+		self.name = "Cleric"
 
 	def render(self, screen):
 

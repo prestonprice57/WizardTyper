@@ -10,6 +10,8 @@ import display
 import Entities
 import Inputbox
 import Area
+import SpellFactory
+import Tags
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -25,6 +27,7 @@ cleric = Entities.Cleric()
 display.register(cleric)
 textBox = Inputbox.InputBox()
 display.register(textBox)
+spellFactory = SpellFactory.SpellFactory()
 
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
@@ -34,6 +37,7 @@ def keyboard(event, isKeydown):
 		try:
 			textBox.currentText += chr(key)
 		except:
+			# this happens if shift, ctrl, alt, ect... is pressed.
 			pass
 eHandler = EHandler.EHandler(keyboard)
 
@@ -47,7 +51,12 @@ def enterKey(event, isKeydown):
 		textBox.toggle()
 		spellText = textBox.currentText
 		textBox.clear()
-		if len(spellText) > 0: print spellText
+		if len(spellText) > 0:
+			print spellText
+			spells = spellFactory.getSpell(cleric.name, spellText, 1)
+			for spell in spells:
+				spell.applyEffectsToEntity(cleric)
+
 
 def moveLeft(event, isKeydown):
 	if isKeydown:
@@ -73,6 +82,9 @@ def moveDown(event, isKeydown):
 	else:
 		cleric.dy = 0.0
 
+def printHP(event, isKeydown):
+	if isKeydown: print cleric.stats.hp
+
 # add methods to EHandler here
 # the following is an example
 # eHandler.registerKey(pygame.K_a, exampleCallbackMethod)
@@ -83,6 +95,7 @@ eHandler.registerKey(pygame.K_UP, moveUp)
 eHandler.registerKey(pygame.K_DOWN, moveDown)
 eHandler.registerKey(pygame.K_RETURN, enterKey)
 eHandler.registerKey(pygame.K_BACKSPACE, textBox.undo)
+eHandler.registerKey(pygame.K_TAB, printHP)
 
 # main game loop
 clock = pygame.time.Clock()
