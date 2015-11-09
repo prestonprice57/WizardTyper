@@ -12,6 +12,7 @@ import Inputbox
 import Area
 import SpellFactory
 import Tags
+import Timer
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -28,7 +29,7 @@ display.register(cleric)
 textBox = Inputbox.InputBox()
 display.register(textBox)
 spellFactory = SpellFactory.SpellFactory()
-
+timer = Timer.Timer()
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
 def keyboard(event, isKeydown):
@@ -48,11 +49,15 @@ def quit(event, isKeydown):
 
 def enterKey(event, isKeydown):
 	if isKeydown:
+		if not textBox.isTyping:
+			timer.startTimer()
+		else:
+			timer.stopTimer()
 		textBox.toggle()
 		spellText = textBox.currentText
 		textBox.clear()
 		if len(spellText) > 0:
-			print spellText
+			print spellText + ": " + str(timer.elapsedTime)
 			spells = spellFactory.getSpell(cleric.name, spellText, 1)
 			for spell in spells:
 				spell.applyEffectsToEntity(cleric)
