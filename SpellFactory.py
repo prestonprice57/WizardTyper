@@ -10,6 +10,9 @@ class SpellFactory(object):
 			"lightning bolt":Spells.LightningBolt,
 			"LightningBolt":Spells.LightningBolt
 		}
+		self.__reset()
+
+	def __reset(self):
 		self.casterString = ""
 		self.targetString = ""
 		self.spellString  = ""
@@ -19,15 +22,20 @@ class SpellFactory(object):
 		self.ONKEYWORD = False
 		self.PARTS = []
 
-	def getSpell(self, spellString, typeSpeed):
+	def getSpell(self, caster, spellString, typeSpeed):
 		self.__build(spellString)
+		caster = caster.lower()
 		spells = []
 		for spellText in self.spellList:
 			if spellText in self._spellBook:
+				# get a reference to the class
 				spell = self._spellBook[spellText]
+				# reset the spell variable to an instaciated version of the class
 				spell = spell(typeSpeed)
 				spell.targets = self.targetList
+				spell.casterName = caster
 				spells.append(spell)
+		self.__reset()
 		return spells
 
 	

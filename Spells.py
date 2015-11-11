@@ -16,7 +16,9 @@ class Spell(object):
 	# this will check to see if the entity is amoung the list of targets
 	def isTarget(self, entity):
 		for target in self.targets:
-			if target == entity.name:
+			if target.lower() == entity.name.lower():
+				print target.lower()
+				print entity.name.lower()
 				return True
 		return False
 

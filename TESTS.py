@@ -67,27 +67,7 @@ def testSpellFactory(msg, str1, str2, str3, expSpellList, expTargetList):
 
 	print "TESTING STRING \"" + msg + "\""
 	sf = SpellFactory.SpellFactory()
-	spells = sf.getSpell(msg, 1)
-
-	if sf.casterString != str1:
-		print "ERROR: Result incorrect.  Expected \"" + str1 + "\" but found: \"" + sf.casterString + "\""
-		return
-	if sf.spellString != str2:
-		print "ERROR: Result incorrect.  Expected \"" + str2 + "\" but found: \"" + sf.spellString + "\""
-		return
-	if sf.targetString != str3:
-		print "ERROR: Result incorrect.  Expected \"" + str3 + "\" but found: \"" + sf.targetString + "\""
-		return
-
-	spellList = sf.spellList
-	targetList = sf.targetList
-
-	if spellList != expSpellList:
-		print "ERROR: Result incorrect.  Expected \"fireball\" but found: \"" + spellList[0] + "\""
-		return
-	if targetList != expTargetList:
-		print "ERROR: Result incorrect.  Expected \"skeleton\" but found: \"" + targetList[0] + "\""
-		return
+	spells = sf.getSpell("player", msg, 1)
 
 	print "testing the returned spell array"
 	print "\tarray length == ", len(spells)
@@ -99,9 +79,6 @@ def testSpellFactory(msg, str1, str2, str3, expSpellList, expTargetList):
 		print "\ttesting a spell"
 		spellTargets = spell.targets
 		printStatus(len(spellTargets) == len(expTargetList))
-
-
-
 
 # start tests here
 testEffects()
