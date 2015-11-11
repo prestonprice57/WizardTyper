@@ -72,6 +72,50 @@ class Actions(object):
 	ATTACK = 3
 	DIE    = 4
 
+class Goblin(Entity):
+
+	frames = {
+		Actions.IDLE   : [(i * 32,   0) for i in range(10)],
+		Actions.TAUNT  : [(i * 32,  32) for i in range(10)],
+		Actions.WALK   : [(i * 32,  64) for i in range(10)],
+		Actions.ATTACK : [(i * 32,  96) for i in range(10)],
+		Actions.DIE    : [(i * 32, 128) for i in range(10)],
+	}
+
+	def __init__(self):
+		super(Goblin, self).__init__(
+			display.get_image(
+				os.path.join(
+					'resources',
+					'Goblin spritesheet calciumtrice.png'
+				)
+			)
+		)
+		self.clock = pygame.time.Clock()
+		self.frame = 0.0
+		self.currentAction = Actions.IDLE
+
+	def render(self, screen):
+
+		# Convert tile/subtile to screen coordinates
+		#x = int(self.tile[0] * 32)
+		#y = int(self.tile[1] * 32)
+
+		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 10
+
+		screen.blit(
+		    pygame.transform.scale(
+		        self.sprite_map.subsurface(
+		            pygame.Rect(
+		                self.frames[self.currentAction][int(self.frame)],
+		                (32, 32)
+		            ),
+		        ),
+		        (64, 64)
+		    ),
+		    (self.x, self.y)
+		)
+
 class Cleric(Entity):
 	''' Cleric character'''
 
@@ -82,7 +126,7 @@ class Cleric(Entity):
 
 	# This is essentially a static class variable
 	# It contains the mapping of frames in the
-	# minotaur sprite map.
+	# cleric sprite map.
 	frames = {
 		Actions.IDLE   : [(i * 32,   0) for i in range(10)],
 		Actions.TAUNT  : [(i * 32,  32) for i in range(10)],
@@ -104,6 +148,8 @@ class Cleric(Entity):
 		self.clock = pygame.time.Clock()
 		self.frame = 0.0
 		self.currentAction = Actions.IDLE
+		self.x = 225
+		self.y = 225
 
 
 	def setCurrentAction(self, actionNum):

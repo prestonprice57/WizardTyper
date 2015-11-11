@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Game.py: This is the main game file for the WizardTyper game
-# Author: Chad Carey,
+# Author: Chad Carey, Preston Price
 
 import EHandler
 import pygame
@@ -9,7 +9,7 @@ import COLOR_CONSTANTS as COLORS
 import display
 import Entities
 import Inputbox
-import Area
+import area
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -18,10 +18,12 @@ SCREEN_SIZE = (800,600)
 # initialize pygame
 pygame.display.init()
 display.init(800,600)
-display.register(Area.main_map())
+display.register(area.main_map())
 
 # initialize everything else here
 cleric = Entities.Cleric()
+goblin = Entities.Goblin()
+display.register(goblin)
 display.register(cleric)
 textBox = Inputbox.InputBox()
 display.register(textBox)
