@@ -49,18 +49,18 @@ def quit(event, isKeydown):
 
 def enterKey(event, isKeydown):
 	if isKeydown:
-		if not textBox.isTyping:
-			timer.startTimer()
-		else:
-			timer.stopTimer()
 		textBox.toggle()
-		spellText = textBox.currentText
-		textBox.clear()
-		if len(spellText) > 0:
-			print spellText + ": " + str(timer.elapsedTime)
-			spells = spellFactory.getSpell(cleric.name, spellText, 1)
-			for spell in spells:
-				spell.applyEffectsToEntity(cleric)
+		if not textBox.isTyping:
+			timer.stopTimer()
+			spellText = textBox.currentText
+			textBox.clear()
+			if len(spellText) > 0:
+				print spellText + ": " + str(timer.elapsedTime)
+				spells = spellFactory.getSpell(cleric.name, spellText, timer.elapsedTime)
+				for spell in spells:
+					spell.applyEffectsToEntity(cleric)
+		else:
+			timer.startTimer()
 
 
 def moveLeft(event, isKeydown):
