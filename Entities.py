@@ -1,4 +1,4 @@
-import display
+import Display
 import os
 import pygame
 import Colliders
@@ -17,7 +17,7 @@ class Stats(object):
 
 
 # Entity is the base class for all game entities. (player, crature...)
-class Entity(display.Renderable):
+class Entity(Display.Renderable):
 
 	def __init__(self, sprite_map):
 		# Call the parent constructor
@@ -85,7 +85,7 @@ class Goblin(Entity):
 
 	def __init__(self):
 		super(Goblin, self).__init__(
-			display.get_image(
+			Display.get_image(
 				os.path.join(
 					'resources',
 					'goblin1.png'
@@ -139,7 +139,7 @@ class Cleric(Entity):
 	def __init__(self):
 		# Call the parent constructor
 		super(Cleric, self).__init__(
-			display.get_image(
+			Display.get_image(
 				os.path.join(
 					'resources',
 					'cleric spritesheet calciumtrice.png'

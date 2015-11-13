@@ -14,11 +14,11 @@
 
 import pygame, pygame.font, pygame.event, pygame.draw, string
 from pygame.locals import *
-import display
+import Display
 import COLOR_CONSTANTS as COLORS
 
 
-class InputBox(display.Renderable):
+class InputBox(Display.Renderable):
 
     def __init__(self):
         pygame.font.init()
@@ -26,7 +26,7 @@ class InputBox(display.Renderable):
         self.z_index = 10
         self.isTyping = False
 
-  # render the display box with text here
+  # render the Display box with text here
     def render(self, screen):
         "Print a message in a box in the middle of the screen"
         if self.isTyping:

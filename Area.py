@@ -2,11 +2,11 @@
 # NOTE: this is in the process of being modified from another game
 # Author: Chad Carey, Preston Price
 
-import display
+import Display
 import os.path
 import pygame
 
-class Area(display.Renderable):
+class Area(Display.Renderable):
 	''' Map class
 
 	   Tracks the map data
@@ -101,7 +101,7 @@ class Area(display.Renderable):
 def main_map():
 	m = Area(
 		(16, 16),
-	        display.get_image(
+	        Display.get_image(
 			os.path.join(
 				'resources',
 				'dungeon tileset calciumtrice.png'
