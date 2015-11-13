@@ -1,4 +1,5 @@
 import Entities
+import display
 
 # effect is a base class for all effects
 class Effect(object):
@@ -24,10 +25,19 @@ class Burn(Effect):
 		self.timer = duration
 		self.power = power
 
+	def runAnimation(self,entity):
+		fireball = Entities.Fireball()
+		fireball.setCurrentAction(1)
+		fireball.x = entity.x
+		fireball.y = entity.y
+		display.renderables.append(fireball)
+
 	def applyEffect(self, entity):
 		self.updateSpellProgress()
 		if self.active:
 			entity.damage(self.power)
+			self.runAnimation(entity)
+
 			
 
 # burn is a damage effect

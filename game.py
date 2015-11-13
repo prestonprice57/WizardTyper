@@ -21,17 +21,19 @@ SCREEN_SIZE = (800,600)
 # initialize pygame
 pygame.display.init()
 display.init(800,600)
-display.register(area.main_map())
+display.register(Area.main_map())
 
 # initialize everything else here
 cleric = Entities.Cleric()
 goblin = Entities.Goblin()
+fireball = Entities.Fireball()
 display.register(goblin)
 display.register(cleric)
 textBox = Inputbox.InputBox()
 display.register(textBox)
 spellFactory = SpellFactory.SpellFactory()
 timer = Timer.Timer()
+display.register(fireball)
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
 def keyboard(event, isKeydown):
