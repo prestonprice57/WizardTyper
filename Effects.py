@@ -1,5 +1,5 @@
 import Entities
-import display
+import Display
 
 # effect is a base class for all effects
 class Effect(object):
@@ -30,7 +30,7 @@ class Burn(Effect):
 		fireball.setCurrentAction(1)
 		fireball.x = entity.x
 		fireball.y = entity.y
-		display.renderables.append(fireball)
+		Display.renderables.append(fireball)
 
 	def applyEffect(self, entity):
 		self.updateSpellProgress()

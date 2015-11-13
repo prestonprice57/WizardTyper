@@ -208,7 +208,7 @@ class Fireball(Entity):
 
 	def __init__(self):
 		super(Fireball, self).__init__(
-			display.get_image(
+			Display.get_image(
 				os.path.join(
 					'resources',
 					'exp2_0.png'
