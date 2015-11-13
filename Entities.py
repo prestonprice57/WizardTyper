@@ -88,7 +88,7 @@ class Goblin(Entity):
 			display.get_image(
 				os.path.join(
 					'resources',
-					'Goblin spritesheet calciumtrice.png'
+					'goblin1.png'
 				)
 			)
 		)
