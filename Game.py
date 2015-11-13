@@ -6,9 +6,9 @@
 import EHandler
 import pygame
 import COLOR_CONSTANTS as COLORS
-import display
+import Display
 import Entities
-import Inputbox
+import InputBox
 import Area
 import SpellFactory
 import Tags
@@ -20,20 +20,18 @@ SCREEN_SIZE = (800,600)
 
 # initialize pygame
 pygame.display.init()
-display.init(800,600)
-display.register(Area.main_map())
+Display.init(800,600)
+Display.register(Area.main_map())
 
 # initialize everything else here
 cleric = Entities.Cleric()
 goblin = Entities.Goblin()
-fireball = Entities.Fireball()
-display.register(goblin)
-display.register(cleric)
-textBox = Inputbox.InputBox()
-display.register(textBox)
+Display.register(goblin)
+Display.register(cleric)
+textBox = InputBox.InputBox()
+Display.register(textBox)
 spellFactory = SpellFactory.SpellFactory()
 timer = Timer.Timer()
-display.register(fireball)
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
 def keyboard(event, isKeydown):
@@ -53,18 +51,18 @@ def quit(event, isKeydown):
 
 def enterKey(event, isKeydown):
 	if isKeydown:
-		if not textBox.isTyping:
-			timer.startTimer()
-		else:
-			timer.stopTimer()
 		textBox.toggle()
-		spellText = textBox.currentText
-		textBox.clear()
-		if len(spellText) > 0:
-			print spellText + ": " + str(timer.elapsedTime)
-			spells = spellFactory.getSpell(cleric.name, spellText, 1)
-			for spell in spells:
-				spell.applyEffectsToEntity(cleric)
+		if not textBox.isTyping:
+			timer.stopTimer()
+			spellText = textBox.currentText
+			textBox.clear()
+			if len(spellText) > 0:
+				print spellText + ": " + str(timer.elapsedTime)
+				spells = spellFactory.getSpell(cleric.name, spellText, timer.elapsedTime)
+				for spell in spells:
+					spell.applyEffectsToEntity(cleric)
+		else:
+			timer.startTimer()
 
 
 def moveLeft(event, isKeydown):
@@ -125,7 +123,7 @@ while not eHandler.quit:
 	cleric.update()
 
     # draw
-	display.render()
+	Display.render()
 
 	# this limits the game to 60 fps
 	clock.tick(FRAMES_PER_SECOND)

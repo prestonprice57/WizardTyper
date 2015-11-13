@@ -62,9 +62,10 @@ class SpellFactory(object):
 		end = 0
 
 		#Find the keywords cast or block
-		while self.PARTS[end] != "cast" and self.PARTS[end] != "block":
-			end += 1
-
+		# while self.PARTS[end] != "cast" and self.PARTS[end] != "block":
+		# 	end += 1
+		if not "cast" in self.PARTS and not "block" in self.PARTS:
+			return
 
 		#After they're found, build the caster's string
 		for i in range(start, end):
