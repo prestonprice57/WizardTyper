@@ -57,8 +57,11 @@ def enterKey(event, isKeydown):
 			spellText = textBox.currentText
 			textBox.clear()
 			if len(spellText) > 0:
-				print spellText + ": " + str(timer.elapsedTime)
-				spells = spellFactory.getSpell(cleric.name, spellText, timer.elapsedTime)
+				words = len(spellText)/4
+				minutes = timer.elapsedTime/60
+				wpm = words/minutes
+				print spellText + " WPM:" + str(wpm)
+				spells = spellFactory.getSpell(cleric.name, spellText, wpm)
 				for spell in spells:
 					spell.applyEffectsToEntity(cleric)
 		else:
