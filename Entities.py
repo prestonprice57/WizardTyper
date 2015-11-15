@@ -11,7 +11,7 @@ class Stats(object):
 	def __init__(self):
 		self.hp = 100
 		self._magicPower = 1.0 # percentage
-		self._fireResistance = 1.0 # percentage
+		self._magicResistance = 1.0 # percentage
 
 	# add properties for magicPower and fireResistance
 

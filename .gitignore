@@ -1,1 +1,3 @@
 *.pyc
+resources/pokemonSprites/*.png
+resources/pokemonData/*.pokedat
