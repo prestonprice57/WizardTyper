@@ -72,6 +72,8 @@ class Actions(object):
 	WALK   = 2
 	ATTACK = 3
 	DIE    = 4
+	ACTIVE = 5
+	INACTIVE = 6
 
 class Goblin(Entity):
 
@@ -188,3 +190,67 @@ class Cleric(Entity):
 		    ),
 		    (self.x, self.y)
 		)
+
+class Fireball(Entity):
+	fireballList = []
+
+	for i in range(4):
+		y = i*64
+		for j in range(4):
+			x = j*64
+			fireballList.append((x,y))
+
+
+	frames = {
+		Actions.ACTIVE   : fireballList,
+		Actions.INACTIVE : 0
+	}
+
+	def __init__(self):
+		super(Fireball, self).__init__(
+			Display.get_image(
+				os.path.join(
+					'resources',
+					'exp2_0.png'
+				)
+			)
+		)
+		self.clock = pygame.time.Clock()
+		self.frame = 0.0
+		self.currentAction = Actions.INACTIVE
+		self.x = 550
+		self.y = 225
+		self.animationCompleted = False
+
+	def render(self, screen):
+
+		# Convert tile/subtile to screen coordinates
+		#x = int(self.tile[0] * 32)
+		#y = int(self.tile[1] * 32)
+
+		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 12
+
+		if self.currentAction == Actions.ACTIVE and not self.animationCompleted:
+			screen.blit(
+			    pygame.transform.scale(
+			        self.sprite_map.subsurface(
+			            pygame.Rect(
+			                self.frames[self.currentAction][int(self.frame)],
+			                (64, 64)
+			            ),
+			        ),
+			        (64, 64)
+			    ),
+			    (self.x, self.y)
+			)
+		if int(self.frame) == 11:
+			self.animationCompleted = True
+			self.currentAction = Actions.INACTIVE
+
+	def setCurrentAction(self, actionNum):
+		if actionNum == 0:
+			self.currentAction = Actions.INACTIVE
+		elif actionNum == 1:
+			self.currentAction = Actions.ACTIVE
+		else:
+			print "Invalid input. Current action not changed."

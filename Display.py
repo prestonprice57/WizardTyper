@@ -67,6 +67,10 @@ def register(renderable):
 
 	renderables.append(renderable)
 
+def unregister(renderable):
+	if renderable in renderables:
+		renderables.remove(renderable)
+
 def render():
 	''' Render all registered renderables'''
 
