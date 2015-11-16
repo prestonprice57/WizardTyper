@@ -104,7 +104,11 @@ def moveDown(event, isKeydown):
 		cleric.setCurrentAction(0)
 
 def printHP(event, isKeydown):
-	if isKeydown: print cleric.stats.hp
+	if isKeydown:
+		print ""
+		for key,entity in entities.iteritems():
+			print key + ": " + str(entity.stats.hp)
+		print ""
 
 # add methods to EHandler here
 # the following is an example
