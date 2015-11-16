@@ -66,7 +66,10 @@ def enterKey(event, isKeydown):
 				# add the spells to the targeted entities
 				for spell in spells:
 					for target in spell.targets:
-						entities[target].applySpell(spell)
+						try:
+							entities[target].applySpell(spell)
+						except:
+							print "invalid target"
 		else:
 			timer.startTimer()
 

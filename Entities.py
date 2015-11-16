@@ -9,7 +9,8 @@ import Tags
 class Stats(object):
 
 	def __init__(self):
-		self.hp = 100
+		self.hp = 10000
+		self.maxHP = 10000
 		self._magicPower = 1.0 # percentage
 		self._magicResistance = 1.0 # percentage
 
@@ -54,6 +55,8 @@ class Entity(Display.Renderable):
 		self.stats.hp = self.stats.hp - damage
 		if self.stats.hp < 1:
 			self.dead = True
+		if self.stats.hp > self.stats.maxHP:
+			self.stats.hp = self.stats.maxHP
 
 	def move(self):
 		self.x += self.dx

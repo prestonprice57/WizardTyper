@@ -67,3 +67,23 @@ class Shock(Effect):
 		if self.active:
 			entity.damage(self.power)
 			
+
+# burn is a damage effect
+class Heal(Effect):
+	def __init__(self, duration, power):
+		# call super constuctor
+		super(Heal, self).__init__()
+		self.timer = duration
+		self.power = power
+		if self.power > 0:
+			self.power = -self.power
+
+	def __del__(self):
+		super(Heal, self).__del__()
+
+
+	def applyEffect(self, entity):
+		self.updateSpellProgress()
+		if self.active:
+			entity.damage(self.power)
+			self.updateAnimation(entity)
