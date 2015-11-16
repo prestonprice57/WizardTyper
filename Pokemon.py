@@ -6,7 +6,7 @@ import os.path
 class Pokemon(Entities.Entity):
 
 	def __init__(self, pokemonID):
-		super(Pokemon, self).__init__(None)
+		super(Pokemon, self).__init__(None, None)
 
 		self._BASE_IMAGE_PATH = os.path.join("resources", "pokemonSprites")
 

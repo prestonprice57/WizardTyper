@@ -24,9 +24,10 @@ Display.init(800,600)
 Display.register(Area.main_map())
 
 # initialize everything else here
-cleric = Entities.Cleric()
-goblin = Entities.Goblin()
-Display.register(goblin)
+entities = {}
+cleric = Entities.Cleric("cleric")
+entities[cleric.name] = cleric
+
 Display.register(cleric)
 textBox = InputBox.InputBox()
 Display.register(textBox)
@@ -62,8 +63,10 @@ def enterKey(event, isKeydown):
 				wpm = words/minutes
 				print spellText + " WPM:" + str(wpm)
 				spells = spellFactory.getSpell(cleric.name, spellText, wpm)
+				# add the spells to the targeted entities
 				for spell in spells:
-					spell.applyEffectsToEntity(cleric)
+					for target in spell.targets:
+						entities[target].applySpell(spell)
 		else:
 			timer.startTimer()
 
@@ -115,6 +118,21 @@ eHandler.registerKey(pygame.K_RETURN, enterKey)
 eHandler.registerKey(pygame.K_BACKSPACE, textBox.undo)
 eHandler.registerKey(pygame.K_TAB, printHP)
 
+# this method will create a new enemy
+def generateEnemies(number):
+	for i in range(0, number):
+		goblin = Entities.Goblin("goblin")
+		entities[goblin.name] = goblin
+		Display.register(goblin)
+
+# this method will update all entities
+def update():
+	for key, entity in entities.iteritems():
+		entity.update()
+	if len(entities) < 2:
+		generateEnemies(1)
+
+
 # main game loop
 clock = pygame.time.Clock()
 while not eHandler.quit:
@@ -122,8 +140,8 @@ while not eHandler.quit:
 	# run events
 	eHandler.runEvents()
 
-	# update objects
-	cleric.update()
+	# update all entities
+	update()
 
     # draw
 	Display.render()

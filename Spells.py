@@ -7,21 +7,6 @@ class Spell(object):
 		self.targets = []
 		self.casterName = "None"
 
-	# this method will pass any effects to the entity if it is on the targets list
-	def applyEffectsToEntity(self, entity):
-		if self.isTarget(entity):
-			for effect in self.effects:
-				entity.effects.append(effect)
-
-	# this will check to see if the entity is amoung the list of targets
-	def isTarget(self, entity):
-		for target in self.targets:
-			if target.lower() == entity.name.lower():
-				print target.lower()
-				print entity.name.lower()
-				return True
-		return False
-
 # fireball spell class
 class Fireball(Spell):
 	def __init__(self, multiplier):

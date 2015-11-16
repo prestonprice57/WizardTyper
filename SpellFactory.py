@@ -9,6 +9,7 @@ class SpellFactory(object):
 			"Fireball":Spells.Fireball,
 			"lightning bolt":Spells.LightningBolt,
 			"LightningBolt":Spells.LightningBolt
+			#"heal":Spells.Heal
 		}
 		self.__reset()
 

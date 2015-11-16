@@ -21,6 +21,7 @@ import COLOR_CONSTANTS as COLORS
 class InputBox(Display.Renderable):
 
     def __init__(self):
+        super(InputBox, self).__init__(None)
         pygame.font.init()
         self.currentText = ""
         self.z_index = 10

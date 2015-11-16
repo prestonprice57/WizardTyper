@@ -19,14 +19,14 @@ class Stats(object):
 # Entity is the base class for all game entities. (player, crature...)
 class Entity(Display.Renderable):
 
-	def __init__(self, sprite_map):
+	def __init__(self, sprite_map, name):
 		# Call the parent constructor
 		super(Entity, self).__init__(sprite_map, 0)
 		self.tile = (0, 0)	# Location in tile units as float
 		self.stats = Stats()
 		self.dead = False
 		self.effects = []
-		self.name = None
+		self.name = name
 		self.x = 4
 		self.y = 4
 		self.dx = 0
@@ -36,6 +36,11 @@ class Entity(Display.Renderable):
 		self.collide = Colliders.defaultCollider
 		# this is a list of tags that can be assigned for access to the available tags see Tags.py
 		self.tags = []
+
+	def applySpell(self, spell):
+		for effect in spell.effects:
+			print "added spell"
+			self.effects.append(effect)
 
 	def render(self, screen):
 		''' Override in children'''
@@ -65,6 +70,7 @@ class Entity(Display.Renderable):
 		self.move()
 		self.runEffects()
 
+
 class Actions(object):
 	''' Action state enum'''
 	IDLE   = 0
@@ -85,18 +91,21 @@ class Goblin(Entity):
 		Actions.DIE    : [(i * 32, 128) for i in range(10)],
 	}
 
-	def __init__(self):
+	def __init__(self, name):
 		super(Goblin, self).__init__(
 			Display.get_image(
 				os.path.join(
 					'resources',
 					'goblin1.png'
 				)
-			)
+			),
+			name
 		)
 		self.clock = pygame.time.Clock()
 		self.frame = 0.0
 		self.currentAction = Actions.IDLE
+		self.x = 100
+		self.y = 100
 
 	def render(self, screen):
 
@@ -138,7 +147,7 @@ class Cleric(Entity):
 		Actions.DIE    : [(i * 32, 128) for i in range(10)],
 	}
 
-	def __init__(self):
+	def __init__(self, name):
 		# Call the parent constructor
 		super(Cleric, self).__init__(
 			Display.get_image(
@@ -146,11 +155,11 @@ class Cleric(Entity):
 					'resources',
 					'cleric spritesheet calciumtrice.png'
 				)
-			)
+			),
+			name
 		)
 		self.clock = pygame.time.Clock()
 		self.frame = 0.0
-		self.name = "Cleric"
 		self.currentAction = Actions.IDLE
 		self.x = 225
 		self.y = 225
@@ -191,66 +200,3 @@ class Cleric(Entity):
 		    (self.x, self.y)
 		)
 
-class Fireball(Entity):
-	fireballList = []
-
-	for i in range(4):
-		y = i*64
-		for j in range(4):
-			x = j*64
-			fireballList.append((x,y))
-
-
-	frames = {
-		Actions.ACTIVE   : fireballList,
-		Actions.INACTIVE : 0
-	}
-
-	def __init__(self):
-		super(Fireball, self).__init__(
-			Display.get_image(
-				os.path.join(
-					'resources',
-					'exp2_0.png'
-				)
-			)
-		)
-		self.clock = pygame.time.Clock()
-		self.frame = 0.0
-		self.currentAction = Actions.INACTIVE
-		self.x = 550
-		self.y = 225
-		self.animationCompleted = False
-
-	def render(self, screen):
-
-		# Convert tile/subtile to screen coordinates
-		#x = int(self.tile[0] * 32)
-		#y = int(self.tile[1] * 32)
-
-		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 12
-
-		if self.currentAction == Actions.ACTIVE and not self.animationCompleted:
-			screen.blit(
-			    pygame.transform.scale(
-			        self.sprite_map.subsurface(
-			            pygame.Rect(
-			                self.frames[self.currentAction][int(self.frame)],
-			                (64, 64)
-			            ),
-			        ),
-			        (64, 64)
-			    ),
-			    (self.x, self.y)
-			)
-		if int(self.frame) == 11:
-			self.animationCompleted = True
-			self.currentAction = Actions.INACTIVE
-
-	def setCurrentAction(self, actionNum):
-		if actionNum == 0:
-			self.currentAction = Actions.INACTIVE
-		elif actionNum == 1:
-			self.currentAction = Actions.ACTIVE
-		else:
-			print "Invalid input. Current action not changed."

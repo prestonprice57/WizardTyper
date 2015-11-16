@@ -1,5 +1,6 @@
 import Entities
 import Display
+import SpellAnimations
 
 # effect is a base class for all effects
 class Effect(object):
@@ -7,6 +8,13 @@ class Effect(object):
 		self.timer = 1
 		self.power = 1
 		self.active = True
+		self.animation = None
+		self.animationRegistered = False
+
+	def __del__(self):
+		if self.animationRegistered:
+			Display.unregister(self.animation)
+			print "animition unregistered"
 
 	def updateSpellProgress(self):
 		if(self.timer > 0):
@@ -17,6 +25,15 @@ class Effect(object):
 	def applyEffect(self, entity):
 		pass
 
+	def updateAnimation(self, entity):
+		if self.animation:
+			if not self.animationRegistered:
+				print "animation registered"
+				Display.register(self.animation)
+				self.animationRegistered = True
+			self.animation.updateAnimation(entity)
+
+
 # burn is a damage effect
 class Burn(Effect):
 	def __init__(self, duration, power):
@@ -24,21 +41,18 @@ class Burn(Effect):
 		super(Burn, self).__init__()
 		self.timer = duration
 		self.power = power
+		self.animation = SpellAnimations.FireAnimation()
 
-	def runAnimation(self,entity):
-		fireball = Entities.Fireball()
-		fireball.setCurrentAction(1)
-		fireball.x = entity.x
-		fireball.y = entity.y
-		Display.renderables.append(fireball)
+	def __del__(self):
+		super(Burn, self).__del__()
+
 
 	def applyEffect(self, entity):
 		self.updateSpellProgress()
 		if self.active:
 			entity.damage(self.power)
-			self.runAnimation(entity)
+			self.updateAnimation(entity)
 
-			
 
 # burn is a damage effect
 class Shock(Effect):

@@ -1,4 +1,5 @@
 import pygame
+import uuid
 
 screen = None
 
@@ -28,6 +29,8 @@ class Renderable(object):
 		'''
 		self.sprite_map = sprite_map
 		self.z_index = z_index
+		self.uuid = uuid.uuid1()
+		print self.uuid
 
 	def render(self, screen):
 		''' Function called by the renderer'''
@@ -60,16 +63,16 @@ def init(width, height):
 	screen = pygame.display.set_mode((width, height))
 
 def register(renderable):
-	''' Register a renderable object
+	if renderable:
+		renderables.append(renderable)
 
-	renderable -- an object with a render() method
-	'''
-
-	renderables.append(renderable)
-
-def unregister(renderable):
-	if renderable in renderables:
-		renderables.remove(renderable)
+def unregister(removedRend):
+	# NOTE this is done this way because __eq__ has been overiden
+	length = len(renderables)
+	for i in range(0,length):
+		if removedRend.uuid == renderables[i].uuid:
+			renderables.pop(i)
+			break # we need to stop here so there isn't a buffer overflow
 
 def render():
 	''' Render all registered renderables'''
