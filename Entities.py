@@ -36,6 +36,7 @@ class Entity(Display.Renderable):
 		self.collide = Colliders.defaultCollider
 		# this is a list of tags that can be assigned for access to the available tags see Tags.py
 		self.tags = []
+		effectApplied = False
 
 	def applySpell(self, spell):
 		for effect in spell.effects:
@@ -62,8 +63,10 @@ class Entity(Display.Renderable):
 		for effect in self.effects:
 			if effect.active:
 				effect.applyEffect(self)
+				effectApplied = True
 			else:
 				print "effect is no longer active. It has been removed"
+				effectApplied = False
 				self.effects.remove(effect)
 
 	def update(self):

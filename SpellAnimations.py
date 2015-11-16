@@ -4,13 +4,8 @@ import pygame
 
 class Actions(object):
 	''' Action state enum'''
-	IDLE   = 0
-	TAUNT  = 1
-	WALK   = 2
-	ATTACK = 3
-	DIE    = 4
-	ACTIVE = 5
-	INACTIVE = 6
+	ACTIVE = 0
+	INACTIVE = 1
 
 
 # Entity is the base class for all game entities. (player, crature...)
@@ -62,7 +57,7 @@ class FireAnimation(SpellAnimation):
 		)
 		self.clock = pygame.time.Clock()
 		self.frame = 0.0
-		self.currentAction = Actions.INACTIVE
+		self.currentAction = Actions.ACTIVE
 		self.x = 550
 		self.y = 225
 		self.animationCompleted = False
