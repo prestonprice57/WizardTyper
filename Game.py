@@ -128,7 +128,7 @@ eHandler.registerKey(pygame.K_TAB, printHP)
 # this method will create a new enemy
 def generateEnemies(number):
 	for i in range(0, number):
-		goblin = Entities.Goblin("goblin")
+		goblin = Entities.Goblin("goblin"+str(i+1))
 		entities[goblin.name] = goblin
 		Display.register(goblin)
 

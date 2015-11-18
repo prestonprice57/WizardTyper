@@ -3,7 +3,7 @@ import os
 import pygame
 import Colliders
 import Tags
-
+import COLOR_CONSTANTS as COLORS
 
 # stats class contains entity stats like hp and resistances
 class Stats(object):
@@ -43,6 +43,10 @@ class Entity(Display.Renderable):
 		for effect in spell.effects:
 			print "added spell"
 			self.effects.append(effect)
+
+	def displayText(self, screen, txt, x, y):
+		fontobject = pygame.font.Font(None,18)
+		screen.blit(fontobject.render(txt, 1, COLORS.BLACK), (x,y))
 
 	def render(self, screen):
 		''' Override in children'''
@@ -134,6 +138,8 @@ class Goblin(Entity):
 		    (self.x, self.y)
 		)
 
+		self.displayText(screen, self.name, self.x+16, self.y+16)
+
 class Cleric(Entity):
 	''' Cleric character'''
 
@@ -205,4 +211,5 @@ class Cleric(Entity):
 		    ),
 		    (self.x, self.y)
 		)
+		self.displayText(screen, self.name, self.x+16, self.y-16)
 
