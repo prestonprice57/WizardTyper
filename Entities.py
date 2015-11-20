@@ -115,7 +115,7 @@ class Goblin(Entity):
 		self.frame = 0.0
 		self.currentAction = Actions.IDLE
 		self.x = 100
-		self.y = 100
+		self.y = 60
 
 	def render(self, screen):
 

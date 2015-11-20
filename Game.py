@@ -14,6 +14,7 @@ import SpellFactory
 import Tags
 import Timer
 import names
+import random
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -131,6 +132,7 @@ def generateEnemies(number):
 	for i in range(0, number):
 		goblin = Entities.Goblin("goblin " + names.get_first_name().lower())
 		entities[goblin.name] = goblin
+		goblin.y += i*60
 		Display.register(goblin)
 
 # this method will update all entities
@@ -138,7 +140,7 @@ def update():
 	for key, entity in entities.iteritems():
 		entity.update()
 	if len(entities) < 2:
-		generateEnemies(1)
+		generateEnemies(random.randint(1,6))
 
 
 # main game loop
