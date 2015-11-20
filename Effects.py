@@ -1,6 +1,7 @@
 import Entities
 import Display
 import SpellAnimations
+import copy
 
 # effect is a base class for all effects
 class Effect(object):
@@ -32,6 +33,11 @@ class Effect(object):
 				Display.register(self.animation)
 				self.animationRegistered = True
 			self.animation.updateAnimation(entity)
+
+	def copy(self):
+		effect = copy.copy(self)
+		effect.animation = copy.copy(self.animation)
+		return effect
 
 
 # burn is a damage effect

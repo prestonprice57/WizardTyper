@@ -42,7 +42,7 @@ class Entity(Display.Renderable):
 	def applySpell(self, spell):
 		for effect in spell.effects:
 			print "added spell"
-			self.effects.append(effect)
+			self.effects.append(effect.copy())
 
 	def displayText(self, screen, txt, x, y):
 		fontobject = pygame.font.Font(None,20)

@@ -33,7 +33,7 @@ class SpellFactory(object):
 				spell = self._spellBook[spellText]
 				# reset the spell variable to an instantiated version of the class
 				spell = spell(typeSpeed)
-				spell.targets = self.targetList
+				spell.targets = list(self.targetList)
 				spell.casterName = caster
 				spells.append(spell)
 		self.__reset()
