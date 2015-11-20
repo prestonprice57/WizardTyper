@@ -13,6 +13,7 @@ import Area
 import SpellFactory
 import Tags
 import Timer
+import names
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -25,7 +26,7 @@ Display.register(Area.main_map())
 
 # initialize everything else here
 entities = {}
-cleric = Entities.Cleric("cleric")
+cleric = Entities.Cleric(names.get_first_name().lower())
 entities[cleric.name] = cleric
 
 Display.register(cleric)
@@ -128,7 +129,7 @@ eHandler.registerKey(pygame.K_TAB, printHP)
 # this method will create a new enemy
 def generateEnemies(number):
 	for i in range(0, number):
-		goblin = Entities.Goblin("goblin"+str(i+1))
+		goblin = Entities.Goblin("goblin " + names.get_first_name().lower())
 		entities[goblin.name] = goblin
 		Display.register(goblin)
 
