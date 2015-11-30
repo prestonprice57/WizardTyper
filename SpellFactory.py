@@ -8,8 +8,8 @@ class SpellFactory(object):
 			"fireball":Spells.Fireball,
 			"Fireball":Spells.Fireball,
 			"lightning bolt":Spells.LightningBolt,
-			"LightningBolt":Spells.LightningBolt
-			#"heal":Spells.Heal
+			"LightningBolt":Spells.LightningBolt,
+			"heal":Spells.Heal
 		}
 		self.__reset()
 
@@ -31,9 +31,9 @@ class SpellFactory(object):
 			if spellText in self._spellBook:
 				# get a reference to the class
 				spell = self._spellBook[spellText]
-				# reset the spell variable to an instaciated version of the class
+				# reset the spell variable to an instantiated version of the class
 				spell = spell(typeSpeed)
-				spell.targets = self.targetList
+				spell.targets = list(self.targetList)
 				spell.casterName = caster
 				spells.append(spell)
 		self.__reset()
@@ -63,21 +63,24 @@ class SpellFactory(object):
 		end = 0
 
 		#Find the keywords cast or block
-		# while self.PARTS[end] != "cast" and self.PARTS[end] != "block":
+		# while self.PARTS[end] != "cast":
 		# 	end += 1
-		if not "cast" in self.PARTS and not "block" in self.PARTS:
+		if not "cast" in self.PARTS:
 			return
 
-		#After they're found, build the caster's string
+		#After cast has been found, build the caster's string
+		#This gets who casted the spell
 		for i in range(start, end):
 			self.casterString += self.PARTS[i] + " "
+
 
 		#Adjust the locators
 		start = end + 1
 		end = start + 1
 
 		#Find the keyword "on"
-		while self.PARTS[end] != "on":
+		while end < len(self.PARTS) and self.PARTS[end] != "on":
+			print "Number of parts: " + str(len(self.PARTS))
 			end += 1
 
 		#After it's found, build the spell string

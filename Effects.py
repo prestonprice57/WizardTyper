@@ -1,6 +1,7 @@
 import Entities
 import Display
 import SpellAnimations
+import copy
 
 # effect is a base class for all effects
 class Effect(object):
@@ -32,6 +33,11 @@ class Effect(object):
 				Display.register(self.animation)
 				self.animationRegistered = True
 			self.animation.updateAnimation(entity)
+
+	def copy(self):
+		effect = copy.copy(self)
+		effect.animation = copy.copy(self.animation)
+		return effect
 
 
 # burn is a damage effect
@@ -67,3 +73,23 @@ class Shock(Effect):
 		if self.active:
 			entity.damage(self.power)
 			
+
+# burn is a damage effect
+class Heal(Effect):
+	def __init__(self, duration, power):
+		# call super constuctor
+		super(Heal, self).__init__()
+		self.timer = duration
+		self.power = power
+		if self.power > 0:
+			self.power = -self.power
+
+	def __del__(self):
+		super(Heal, self).__del__()
+
+
+	def applyEffect(self, entity):
+		self.updateSpellProgress()
+		if self.active:
+			entity.damage(self.power)
+			self.updateAnimation(entity)

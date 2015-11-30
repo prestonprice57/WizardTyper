@@ -13,6 +13,8 @@ import Area
 import SpellFactory
 import Tags
 import Timer
+import names
+import random
 
 # game constants
 FRAMES_PER_SECOND = 60
@@ -25,7 +27,7 @@ Display.register(Area.main_map())
 
 # initialize everything else here
 entities = {}
-cleric = Entities.Cleric("cleric")
+cleric = Entities.Cleric(names.get_first_name().lower())
 entities[cleric.name] = cleric
 
 Display.register(cleric)
@@ -66,8 +68,15 @@ def enterKey(event, isKeydown):
 				# add the spells to the targeted entities
 				for spell in spells:
 					for target in spell.targets:
+<<<<<<< HEAD
 						entities[target].applySpell(spell)
 						entities["cleric"].setCurrentAction(3)
+=======
+						try:
+							entities[target].applySpell(spell)
+						except:
+							print "invalid target"
+>>>>>>> 0983065fa2f2be04083909066dcb3aeff2bacafe
 		else:
 			timer.startTimer()
 
@@ -105,7 +114,11 @@ def moveDown(event, isKeydown):
 		cleric.setCurrentAction(0)
 
 def printHP(event, isKeydown):
-	if isKeydown: print cleric.stats.hp
+	if isKeydown:
+		print ""
+		for key,entity in entities.iteritems():
+			print key + ": " + str(entity.stats.hp)
+		print ""
 
 # add methods to EHandler here
 # the following is an example
@@ -122,8 +135,9 @@ eHandler.registerKey(pygame.K_TAB, printHP)
 # this method will create a new enemy
 def generateEnemies(number):
 	for i in range(0, number):
-		goblin = Entities.Goblin("goblin")
+		goblin = Entities.Goblin("goblin " + names.get_first_name().lower())
 		entities[goblin.name] = goblin
+		goblin.y += i*60
 		Display.register(goblin)
 
 # this method will update all entities
@@ -131,7 +145,7 @@ def update():
 	for key, entity in entities.iteritems():
 		entity.update()
 	if len(entities) < 2:
-		generateEnemies(1)
+		generateEnemies(random.randint(1,6))
 
 
 # main game loop

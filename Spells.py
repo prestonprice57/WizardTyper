@@ -36,3 +36,17 @@ class LightningBolt(Spell):
 		duration = 1
 		power = 5*multiplier
 		self.effects.append(Effects.Shock(duration, power))
+
+
+# fireball spell class
+class Heal(Spell):
+	def __init__(self, multiplier):
+		super(Heal, self).__init__()
+		
+		# add the effects
+
+		# the first effect is a quick heal
+		duration = 2
+		power = 10*multiplier
+		self.effects.append(Effects.Heal(duration, power))
+

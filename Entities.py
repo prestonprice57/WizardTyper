@@ -3,13 +3,14 @@ import os
 import pygame
 import Colliders
 import Tags
-
+import COLOR_CONSTANTS as COLORS
 
 # stats class contains entity stats like hp and resistances
 class Stats(object):
 
 	def __init__(self):
-		self.hp = 100
+		self.hp = 10000
+		self.maxHP = 10000
 		self._magicPower = 1.0 # percentage
 		self._magicResistance = 1.0 # percentage
 
@@ -41,7 +42,11 @@ class Entity(Display.Renderable):
 	def applySpell(self, spell):
 		for effect in spell.effects:
 			print "added spell"
-			self.effects.append(effect)
+			self.effects.append(effect.copy())
+
+	def displayText(self, screen, txt, x, y):
+		fontobject = pygame.font.Font(None,20)
+		screen.blit(fontobject.render(txt, 1, COLORS.BLACK), (x-len(txt),y))
 
 	def render(self, screen):
 		''' Override in children'''
@@ -54,6 +59,8 @@ class Entity(Display.Renderable):
 		self.stats.hp = self.stats.hp - damage
 		if self.stats.hp < 1:
 			self.dead = True
+		if self.stats.hp > self.stats.maxHP:
+			self.stats.hp = self.stats.maxHP
 
 	def move(self):
 		self.x += self.dx
@@ -108,7 +115,7 @@ class Goblin(Entity):
 		self.frame = 0.0
 		self.currentAction = Actions.IDLE
 		self.x = 100
-		self.y = 100
+		self.y = 60
 
 	def render(self, screen):
 
@@ -130,6 +137,8 @@ class Goblin(Entity):
 		    ),
 		    (self.x, self.y)
 		)
+
+		self.displayText(screen, self.name, self.x, self.y+16)
 
 class Cleric(Entity):
 	''' Cleric character'''
@@ -219,4 +228,17 @@ class Cleric(Entity):
 			if int(self.frame) == 9:
 				self.setCurrentAction(0)
 
+		screen.blit(
+		    pygame.transform.scale(
+		        self.sprite_map.subsurface(
+		            pygame.Rect(
+		                self.frames[self.currentAction][int(self.frame)],
+		                (32, 32)
+		            ),
+		        ),
+		        (64, 64)
+		    ),
+		    (self.x, self.y)
+		)
+		self.displayText(screen, self.name, self.x+16, self.y-16)
 
