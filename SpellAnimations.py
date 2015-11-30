@@ -61,10 +61,12 @@ class FireAnimation(SpellAnimation):
 		self.x = 550
 		self.y = 225
 		self.animationCompleted = False
+		self.effectApplied = False
 
 	def updateAnimation(self, entity):
 		self.x = entity.x
 		self.y = entity.y
+		self.effectApplied = entity.effectApplied
 		
 
 	def render(self, screen):
@@ -75,7 +77,7 @@ class FireAnimation(SpellAnimation):
 
 		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 12
 
-		if self.currentAction == Actions.ACTIVE and not self.animationCompleted:
+		"""if self.currentAction == Actions.ACTIVE and not self.animationCompleted:
 			screen.blit(
 			    pygame.transform.scale(
 			        self.sprite_map.subsurface(
@@ -87,11 +89,26 @@ class FireAnimation(SpellAnimation):
 			        (64, 64)
 			    ),
 			    (self.x, self.y)
-			)
+			)"""
 
 		if int(self.frame) == 11:
 			self.animationCompleted = True
 			self.currentAction = Actions.INACTIVE
+
+		if self.currentAction == Actions.ACTIVE and self.effectApplied == True:
+			self.frame = (self.frame + (self.clock.tick() / 100.0)) % 4 + 4
+			screen.blit(
+			    pygame.transform.scale(
+			        self.sprite_map.subsurface(
+			            pygame.Rect(
+			                self.frames[self.currentAction][int(self.frame)],
+			                (64, 64)
+			            ),
+			        ),
+			        (64, 64)
+			    ),
+			    (self.x, self.y+10)
+			)
 
 
 	def setCurrentAction(self, actionNum):

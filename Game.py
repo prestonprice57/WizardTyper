@@ -67,6 +67,7 @@ def enterKey(event, isKeydown):
 				for spell in spells:
 					for target in spell.targets:
 						entities[target].applySpell(spell)
+						entities["cleric"].setCurrentAction(3)
 		else:
 			timer.startTimer()
 

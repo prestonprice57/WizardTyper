@@ -36,7 +36,7 @@ class Entity(Display.Renderable):
 		self.collide = Colliders.defaultCollider
 		# this is a list of tags that can be assigned for access to the available tags see Tags.py
 		self.tags = []
-		effectApplied = False
+		self.effectApplied = True
 
 	def applySpell(self, spell):
 		for effect in spell.effects:
@@ -66,7 +66,7 @@ class Entity(Display.Renderable):
 				effectApplied = True
 			else:
 				print "effect is no longer active. It has been removed"
-				effectApplied = False
+				#effectApplied = False
 				self.effects.remove(effect)
 
 	def update(self):
@@ -190,16 +190,33 @@ class Cleric(Entity):
 
 		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 10
 
-		screen.blit(
-		    pygame.transform.scale(
-		        self.sprite_map.subsurface(
-		            pygame.Rect(
-		                self.frames[self.currentAction][int(self.frame)],
-		                (32, 32)
-		            ),
-		        ),
-		        (64, 64)
-		    ),
-		    (self.x, self.y)
-		)
+		if self.currentAction != Actions.ATTACK:
+			screen.blit(
+			    pygame.transform.scale(
+			        self.sprite_map.subsurface(
+			            pygame.Rect(
+			                self.frames[self.currentAction][int(self.frame)],
+			                (32, 32)
+			            ),
+			        ),
+			        (64, 64)
+			    ),
+			    (self.x, self.y)
+			)
+		else:
+			screen.blit(
+			    pygame.transform.scale(
+			        self.sprite_map.subsurface(
+			            pygame.Rect(
+			                self.frames[self.currentAction][int(self.frame)],
+			                (32, 32)
+			            ),
+			        ),
+			        (64, 64)
+			    ),
+			    (self.x, self.y)
+			)
+			if int(self.frame) == 9:
+				self.setCurrentAction(0)
+
 
