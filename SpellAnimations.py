@@ -39,7 +39,7 @@ class FireAnimation(SpellAnimation):
 			x = j*64
 			fireballList.append((x,y))
 
-
+	print fireballList
 	frames = {
 		Actions.ACTIVE   : fireballList,
 		Actions.INACTIVE : 0
@@ -95,8 +95,8 @@ class FireAnimation(SpellAnimation):
 			self.animationCompleted = True
 			self.currentAction = Actions.INACTIVE
 
-		if self.currentAction == Actions.ACTIVE and self.effectApplied == True:
-			self.frame = (self.frame + (self.clock.tick() / 100.0)) % 4 + 4
+		if self.currentAction == Actions.ACTIVE:# and self.effectApplied == True:
+			self.frame = (self.frame + (self.clock.tick() / 100.0)) % 5 + 6
 			screen.blit(
 			    pygame.transform.scale(
 			        self.sprite_map.subsurface(

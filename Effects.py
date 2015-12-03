@@ -15,7 +15,7 @@ class Effect(object):
 	def __del__(self):
 		if self.animationRegistered:
 			Display.unregister(self.animation)
-			print "animition unregistered"
+			print "animation unregistered"
 
 	def updateSpellProgress(self):
 		if(self.timer > 0):

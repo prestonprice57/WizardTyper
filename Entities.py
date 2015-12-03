@@ -9,7 +9,7 @@ import COLOR_CONSTANTS as COLORS
 class Stats(object):
 
 	def __init__(self):
-		self.hp = 10000
+		self.hp = 1000
 		self.maxHP = 10000
 		self._magicPower = 1.0 # percentage
 		self._magicResistance = 1.0 # percentage
@@ -75,10 +75,29 @@ class Entity(Display.Renderable):
 				print "effect is no longer active. It has been removed"
 				#effectApplied = False
 				self.effects.remove(effect)
+				self.checkHP()
 
 	def update(self):
 		self.move()
 		self.runEffects()
+
+	def checkHP(self):
+		if self.stats.hp <= 0:
+			self.setCurrentAction(4)
+
+	def setCurrentAction(self, actionNum):
+		if actionNum == 0:
+			self.currentAction = Actions.IDLE
+		elif actionNum == 1:
+			self.currentAction = Actions.TAUNT
+		elif actionNum == 2:
+			self.currentAction = Actions.WALK
+		elif actionNum == 3:
+			self.currentAction = Actions.ATTACK
+		elif actionNum == 4:
+			self.currentAction = Actions.DIE
+		else:
+			print "Invalid input. Current action not changed."
 
 
 class Actions(object):
@@ -125,18 +144,46 @@ class Goblin(Entity):
 
 		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 10
 
-		screen.blit(
-		    pygame.transform.scale(
-		        self.sprite_map.subsurface(
-		            pygame.Rect(
-		                self.frames[self.currentAction][int(self.frame)],
-		                (32, 32)
-		            ),
-		        ),
-		        (64, 64)
-		    ),
-		    (self.x, self.y)
-		)
+		if self.currentAction == Actions.IDLE:
+			screen.blit(
+			    pygame.transform.scale(
+			        self.sprite_map.subsurface(
+			            pygame.Rect(
+			                self.frames[self.currentAction][int(self.frame)],
+			                (32, 32)
+			            ),
+			        ),
+			        (64, 64)
+			    ),
+			    (self.x, self.y)
+			)
+		elif self.currentAction == Actions.DIE:
+			screen.blit(
+			    pygame.transform.scale(
+			        self.sprite_map.subsurface(
+			            pygame.Rect(
+			                self.frames[self.currentAction][int(self.frame)],
+			                (32, 32)
+			            ),
+			        ),
+			        (64, 64)
+			    ),
+			    (self.x, self.y)
+			)
+			if int(self.frame) == 9:
+				screen.blit(
+				    pygame.transform.scale(
+				        self.sprite_map.subsurface(
+				            pygame.Rect(
+				                self.frames[4][9],
+				                (32, 32)
+				            ),
+				        ),
+				        (64, 64)
+				    ),
+				    (self.x, self.y)
+				)
+				self.currentAction = Actions.WALK
 
 		self.displayText(screen, self.name, self.x, self.y+16)
 
@@ -176,21 +223,6 @@ class Cleric(Entity):
 		self.x = 225
 		self.y = 225
 
-
-	def setCurrentAction(self, actionNum):
-		if actionNum == 0:
-			self.currentAction = Actions.IDLE
-		elif actionNum == 1:
-			self.currentAction = Actions.TAUNT
-		elif actionNum == 2:
-			self.currentAction = Actions.WALK
-		elif actionNum == 3:
-			self.currentAction = Actions.ATTACK
-		elif actionNum == 4:
-			self.currentAction = Actions.DIE
-		else:
-			print "Invalid input. Current action not changed."
-
 	def render(self, screen):
 
 		# Convert tile/subtile to screen coordinates
@@ -199,7 +231,7 @@ class Cleric(Entity):
 
 		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 10
 
-		if self.currentAction != Actions.ATTACK:
+		if self.currentAction == Actions.IDLE:
 			screen.blit(
 			    pygame.transform.scale(
 			        self.sprite_map.subsurface(
@@ -212,7 +244,22 @@ class Cleric(Entity):
 			    ),
 			    (self.x, self.y)
 			)
-		else:
+		elif self.currentAction == Actions.ATTACK:
+			screen.blit(
+			    pygame.transform.scale(
+			        self.sprite_map.subsurface(
+			            pygame.Rect(
+			                self.frames[self.currentAction][int(self.frame)],
+			                (32, 32)
+			            ),
+			        ),
+			        (64, 64)
+			    ),
+			    (self.x, self.y)
+			)
+			if int(self.frame) == 9:
+				self.setCurrentAction(0)
+		elif self.currentAction == Actions.DIE:
 			screen.blit(
 			    pygame.transform.scale(
 			        self.sprite_map.subsurface(
