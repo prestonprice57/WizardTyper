@@ -17,7 +17,7 @@ class Fireball(Spell):
 		# the first effect is a quick-hard hit
 		duration = 1
 		power = 3*multiplier
-		#self.effects.append(Effects.Burn(duration, power))
+		self.effects.append(Effects.Burn(duration, power))
 		
 		# the second effect is a slow long lasting burn
 		duration = 3*multiplier

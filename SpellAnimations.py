@@ -13,7 +13,7 @@ class SpellAnimation(Display.Renderable):
 
 	def __init__(self, sprite_map, name):
 		# Call the parent constructor
-		super(SpellAnimation, self).__init__(sprite_map, 10)
+		super(SpellAnimation, self).__init__(sprite_map, 2)
 		self.tile = (0, 0)	# Location in tile units as float
 		self.x = 4
 		self.y = 4
@@ -46,13 +46,14 @@ class FireAnimation(SpellAnimation):
 	}
 
 	def __init__(self):
+
 		super(FireAnimation, self).__init__(
-			Display.get_image(
+			pygame.transform.scale(Display.get_image(
 				os.path.join(
 					'resources',
 					'exp2_0.png'
 				)
-			),
+			), (256,256)),
 			None
 		)
 		self.clock = pygame.time.Clock()
@@ -77,24 +78,6 @@ class FireAnimation(SpellAnimation):
 
 		self.frame = (self.frame + (self.clock.tick() / 100.0)) % 12
 
-		"""if self.currentAction == Actions.ACTIVE and not self.animationCompleted:
-			screen.blit(
-			    pygame.transform.scale(
-			        self.sprite_map.subsurface(
-			            pygame.Rect(
-			                self.frames[self.currentAction][int(self.frame)],
-			                (64, 64)
-			            ),
-			        ),
-			        (64, 64)
-			    ),
-			    (self.x, self.y)
-			)"""
-
-		if int(self.frame) == 11:
-			self.animationCompleted = True
-			self.currentAction = Actions.INACTIVE
-
 		if self.currentAction == Actions.ACTIVE:# and self.effectApplied == True:
 			self.frame = (self.frame + (self.clock.tick() / 100.0)) % 5 + 6
 			screen.blit(
@@ -105,9 +88,9 @@ class FireAnimation(SpellAnimation):
 			                (64, 64)
 			            ),
 			        ),
-			        (64, 64)
+			        (50,50)
 			    ),
-			    (self.x, self.y+10)
+			    (self.x+12, self.y+20)
 			)
 
 
