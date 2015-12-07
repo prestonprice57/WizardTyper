@@ -22,7 +22,7 @@ class Entity(Display.Renderable):
 
 	def __init__(self, sprite_map, name):
 		# Call the parent constructor
-		super(Entity, self).__init__(sprite_map, 0)
+		super(Entity, self).__init__(sprite_map, 1)
 		self.tile = (0, 0)	# Location in tile units as float
 		self.stats = Stats()
 		self.dead = False
@@ -38,6 +38,7 @@ class Entity(Display.Renderable):
 		# this is a list of tags that can be assigned for access to the available tags see Tags.py
 		self.tags = []
 		self.effectApplied = True
+		self.removeEntity = False
 
 	def applySpell(self, spell):
 		for effect in spell.effects:
@@ -75,14 +76,14 @@ class Entity(Display.Renderable):
 				print "effect is no longer active. It has been removed"
 				#effectApplied = False
 				self.effects.remove(effect)
-				self.checkHP()
+				self.isDead()
 
 	def update(self):
 		self.move()
 		self.runEffects()
 
-	def checkHP(self):
-		if self.stats.hp <= 0:
+	def isDead(self):
+		if self.dead:
 			self.setCurrentAction(4)
 
 	def setCurrentAction(self, actionNum):
@@ -133,8 +134,13 @@ class Goblin(Entity):
 		self.clock = pygame.time.Clock()
 		self.frame = 0.0
 		self.currentAction = Actions.IDLE
-		self.x = 100
+		self.x = 60
 		self.y = 60
+		self.possibleLocations = [(60,60),(170,60),(280,60),(390,60),
+								  (60,120),(170,120),(280,120),(390,120),
+								  (80,180),(360,180),
+								  (60,300),(170,300),(280,300),(390,300),
+								  (60,360),(170,360),(280,360),(390,360)]
 
 	def render(self, screen):
 
@@ -171,7 +177,8 @@ class Goblin(Entity):
 			    (self.x, self.y)
 			)
 			if int(self.frame) == 9:
-				screen.blit(
+				self.removeEntity = True
+				"""screen.blit(
 				    pygame.transform.scale(
 				        self.sprite_map.subsurface(
 				            pygame.Rect(
@@ -183,7 +190,7 @@ class Goblin(Entity):
 				    ),
 				    (self.x, self.y)
 				)
-				self.currentAction = Actions.WALK
+				self.currentAction = Actions.WALK"""
 
 		self.displayText(screen, self.name, self.x, self.y+16)
 

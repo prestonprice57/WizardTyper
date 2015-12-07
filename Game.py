@@ -18,11 +18,11 @@ import random
 
 # game constants
 FRAMES_PER_SECOND = 60
-SCREEN_SIZE = (800,600)
+SCREEN_SIZE = (512,512)
 
 # initialize pygame
 pygame.display.init()
-Display.init(800,600)
+Display.init(SCREEN_SIZE[0],SCREEN_SIZE[1])
 Display.register(Area.main_map())
 
 # initialize everything else here
@@ -90,9 +90,8 @@ def enterKey(event, isKeydown):
 				# add the spells to the targeted entities
 				for spell in spells:
 					for target in spell.targets:
-						entities[target].applySpell(spell)
-						entities[cleric.name].setCurrentAction(3)
 						try:
+							entities[cleric.name].setCurrentAction(3)
 							entities[target].applySpell(spell)
 						except:
 							print "invalid target"
@@ -153,16 +152,41 @@ eHandler.registerKey(pygame.K_TAB, printHP)
 
 # this method will create a new enemy
 def generateEnemies(number):
+	arrayInit = False
+	arr = []
+
 	for i in range(0, number):
 		goblin = Entities.Goblin("goblin " + names.get_first_name().lower())
+
+		if arrayInit == False:
+			arr = shuffledArray(len(goblin.possibleLocations))
+			arrayInit = True
+		goblin.x = goblin.possibleLocations[arr[i]][0]
+		goblin.y = goblin.possibleLocations[arr[i]][1]
+
 		entities[goblin.name] = goblin
-		goblin.y += i*60
 		Display.register(goblin)
+
+def shuffledArray(length):
+	i = 0
+	arr = []
+	for i in range(0,length):
+		arr.append(i)
+	random.shuffle(arr)
+
+	return arr
 
 # this method will update all entities
 def update():
+	deadEntities = []
 	for key, entity in entities.iteritems():
 		entity.update()
+		if entity.removeEntity:
+			Display.unregister(entity)
+			deadEntities.append(key)
+	for key in deadEntities:
+		del entities[key]
+	
 	if len(entities) < 2:
 		generateEnemies(random.randint(1,6))
 
