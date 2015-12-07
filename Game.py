@@ -36,6 +36,28 @@ Display.register(textBox)
 spellFactory = SpellFactory.SpellFactory()
 timer = Timer.Timer()
 
+
+DOOR = 1
+WALL = 5
+def checkCollosions(player):
+	sideWall = 10
+	topWall = 10
+	if(player.x > sideWall and player.x < 450-sideWall and player.y > topWall and player.y < 400-topWall):
+		return -1
+	else:
+		# check left door
+		# check top door 
+		# check right door 
+		# check bottom door
+		# just wall 5
+		return WALL
+
+def handleCollision(player, collision):
+	if collision == DOOR:
+		print "door"
+	elif collision != -1:
+		print "wall"
+
 # initializing the eHandler, You must give the eHandler a default keyboard function
 def keyboard(event, isKeydown):
 	key = event.key
@@ -154,6 +176,8 @@ while not eHandler.quit:
 
 	# update all entities
 	update()
+
+	handleCollision(cleric, checkCollosions(cleric))
 
     # draw
 	Display.render()
