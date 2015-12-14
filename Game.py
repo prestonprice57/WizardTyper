@@ -37,26 +37,63 @@ spellFactory = SpellFactory.SpellFactory()
 timer = Timer.Timer()
 
 
-DOOR = 1
-WALL = 5
+LEFT_DOOR = 1
+LEFT_WALL = 2
+RIGHT_DOOR = 3
+RIGHT_WALL = 4
+TOP_DOOR = 5
+TOP_WALL = 6
+BOTTOM_DOOR = 7
+BOTTOM_WALL = 8
 def checkCollosions(player):
 	sideWall = 10
 	topWall = 10
-	if(player.x > sideWall and player.x < 450-sideWall and player.y > topWall and player.y < 400-topWall):
-		return -1
-	else:
-		# check left door
-		# check top door 
-		# check right door 
-		# check bottom door
-		# just wall 5
-		return WALL
+
+	# check wall
+	if player.x < sideWall:
+		if player.y < 220 and player.y > 170:
+			return LEFT_DOOR
+		else:
+			return LEFT_WALL
+	elif player.x > sideWall+430:
+		if player.y < 220 and player.y > 170:
+			return RIGHT_DOOR
+		else:
+			return RIGHT_WALL
+	elif player.y < topWall:
+		if player.x < 250 and player.x > 180:
+			return TOP_DOOR
+		else:
+			return TOP_WALL
+	elif player.y > topWall+380:
+		if player.x < 250 and player.x > 180:
+			return BOTTOM_DOOR
+		else:
+			return BOTTOM_WALL
+	
+	return -1
 
 def handleCollision(player, collision):
-	if collision == DOOR:
-		print "door"
-	elif collision != -1:
-		print "wall"
+	if collision == LEFT_WALL:
+		player.x += 10
+	elif collision == LEFT_DOOR:
+		newRoom()
+		player.x = 420
+	elif collision == TOP_WALL:
+		player.y += 10
+	elif collision == TOP_DOOR:
+		newRoom()
+		player.y = 380
+	elif collision == RIGHT_WALL:
+		player.x -= 10
+	elif collision == RIGHT_DOOR:
+		newRoom()
+		player.x = 40
+	elif collision == BOTTOM_WALL:
+		player.y -= 10
+	elif collision == BOTTOM_DOOR:
+		newRoom()
+		player.y = 30
 
 # initializing the eHandler, You must give the eHandler a default keyboard function
 def keyboard(event, isKeydown):
@@ -151,7 +188,10 @@ eHandler.registerKey(pygame.K_BACKSPACE, textBox.undo)
 eHandler.registerKey(pygame.K_TAB, printHP)
 
 # this method will create a new enemy
-def generateEnemies(number):
+def generateEnemies(number = -1):
+	if number < 1:
+		number = random.randint(1,6)
+		
 	arrayInit = False
 	arr = []
 
@@ -176,6 +216,19 @@ def shuffledArray(length):
 
 	return arr
 
+def newRoom():
+	killList = []
+	for key,entity in entities.iteritems():
+		if cleric.name != key:
+			Display.unregister(entity)
+			killList.append(key)
+
+	for key in killList:
+		print "killing", key
+		del entities[key]
+
+	generateEnemies()
+
 # this method will update all entities
 def update():
 	deadEntities = []
@@ -188,7 +241,7 @@ def update():
 		del entities[key]
 	
 	if len(entities) < 2:
-		generateEnemies(random.randint(1,6))
+		generateEnemies()
 
 
 # main game loop
