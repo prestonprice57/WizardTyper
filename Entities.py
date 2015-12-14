@@ -9,8 +9,8 @@ import COLOR_CONSTANTS as COLORS
 class Stats(object):
 
 	def __init__(self):
-		self.hp = 1000
-		self.maxHP = 10000
+		self.maxHP = 500
+		self.hp = self.maxHP
 		self._magicPower = 1.0 # percentage
 		self._magicResistance = 1.0 # percentage
 
@@ -49,6 +49,7 @@ class Entity(Display.Renderable):
 		fontobject = pygame.font.Font(None,20)
 		screen.blit(fontobject.render(txt, 1, COLORS.BLACK), (x-len(txt),y))
 
+
 	def render(self, screen):
 		''' Override in children'''
 		pass
@@ -57,7 +58,7 @@ class Entity(Display.Renderable):
 		return tag in self.tags
 
 	def damage(self, damage):
-		self.stats.hp = self.stats.hp - damage
+		self.stats.hp = int(self.stats.hp - damage)
 		if self.stats.hp < 1:
 			self.dead = True
 		if self.stats.hp > self.stats.maxHP:
@@ -193,6 +194,7 @@ class Goblin(Entity):
 				self.currentAction = Actions.WALK"""
 
 		self.displayText(screen, self.name, self.x, self.y+16)
+		self.displayText(screen, "hp: " + str(self.stats.hp), self.x+15, self.y)
 
 class Cleric(Entity):
 	''' Cleric character'''
@@ -295,4 +297,5 @@ class Cleric(Entity):
 		    (self.x, self.y)
 		)
 		self.displayText(screen, self.name, self.x+16, self.y-16)
+		self.displayText(screen, "hp: " + str(self.stats.hp), self.x+15, self.y-32)
 
