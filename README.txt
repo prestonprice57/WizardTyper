@@ -1,3 +1,16 @@
+#WizardTyper
+
+##Description
+
+Video game made for a video game design class. Collaborated with Kevin Andres and Chad Carey.
+
+##Instruction
+
+To play game, simple press enter and type "cast [spell] on [goblin]"
+ex. cast fireball on goblin preston
+
+This game can be used to increase your typing speed, more damage is done to the goblins as your type speed increases.
+
 File descriptions
 ----------------------------------
 game.py: contains the main game loop.
